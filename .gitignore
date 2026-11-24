@@ -1,0 +1,69 @@
+# ---- Dependencies ----
+node_modules/
+.pnp/
+.pnp.js
+
+# ---- Build Outputs ----
+dist/
+dist-ssr/
+*.local
+
+# ---- Vite / Cache ----
+.vite/
+.cache/
+*.tsbuildinfo
+
+# ---- Logs ----
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Environment / Secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Testing / Coverage ----
+coverage/
+.nyc_output/
+
+# ---- Editors / IDE ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- OS Files ----
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---- Documentation & Promotional Assets ----
+docs/*
+!docs/sdlc/
+docs/sdlc/*
+!docs/sdlc/screenshots/
+docs/sdlc/screenshots/*
+!docs/sdlc/screenshots/example/
+!docs/sdlc/screenshots/example/**
+
+tools/.cache-dem/
+tools/.shot-*
+tools/.bench/
+tools/.audit-scenarios/
+
+# ---- Local Audit Outputs ----
+.audit-reports/
+tools/.reference/
+scratch/
+
+# ---- Version Comparison Outputs ----
+.cmp/
+tools/__pycache__/
