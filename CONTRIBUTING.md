@@ -20,7 +20,7 @@ Open an issue to discuss before coding — especially for large changes. Check t
 | **Real terrain** | USGS LOLA (Moon) / MOLA (Mars) DEM tile streaming |
 | **Eclipse shadows** | Sun–Moon–Earth shadow volumes |
 | **Sound** | Ambient radio hiss, surface crunch, underwater |
-| **Translations** | The UI is Chinese; English/other locale support |
+| **Translations** | Multilingual localization support (EN, ES, FR, DE, JA, RU, ZH) |
 | **Mobile** | Touch controls (pinch zoom, two-finger pan) |
 | **Accuracy** | VSOP87 + ELP2000 for ±3000 year validity |
 | **Bookmarks** | Save/restore position + time |

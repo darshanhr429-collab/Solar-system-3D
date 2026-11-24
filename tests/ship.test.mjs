@@ -1,11 +1,9 @@
-// 飞船物理的回归：引力积分、街机阻尼、大气阻力。
+// Spacecraft physics regressions: gravity integration, arcade damping, atmospheric drag.
 //
-// 这些是"1:1 模拟"与"相机漫游"的分界线，而且很容易出现"帧率正常、物理悄悄错"
-// 这类静默故障（例如漏掉 gm 项、阻尼把速度吃掉、阻力符号反了）。
-//
-// 测试前提（否则会得到假失败，见 tools/verify-gravity.mjs 的说明）：
-//  · posKm 是**日心**坐标，太阳引力项才成立；
-//  · 地球必须按真实轨道运动，否则会多出一个相对加速度。
+// These define the boundary between 1:1 simulation and camera roaming.
+// Test prerequisites:
+//  - posKm is heliocentric coordinates, making solar gravity valid;
+//  - Earth moves along true orbit, otherwise fictitious relative acceleration appears.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Ship, aeroAt } from '../src/engine/ship.js';
@@ -34,7 +32,7 @@ function makeEnv(earth) {
   return { nearest: earth, get: () => earth, baseReady: () => true, phys: () => earth.phys };
 }
 
-test('引力模式：600km 圆轨道两小时内半径漂移 < 0.5%', () => {
+test('Gravity mode: 600km circular orbit radius drift < 0.5% over 2 hours', () => {
   const alt = 600, r0 = R_EARTH + alt;
   const vCirc = Math.sqrt(GM_EARTH / r0);
   const vEarth = Math.sqrt(GM_SUN / AU);
@@ -46,8 +44,8 @@ test('引力模式：600km 圆轨道两小时内半径漂移 < 0.5%', () => {
 
   let minR = Infinity, maxR = -Infinity;
   const dt = 0.1;
-  for (let i = 0; i < 72000; i++) {           // 2 小时
-    // 地球按真实轨道运动（否则多出相对加速度，测的是脚手架不是代码）
+  for (let i = 0; i < 72000; i++) {           // 2 hours
+    // Earth moves along true orbit (prevents spurious relative acceleration)
     const ang = (vEarth * i * dt) / AU;
     earth.posKm[0] = AU * Math.cos(ang);
     earth.posKm[1] = AU * Math.sin(ang);
@@ -56,10 +54,10 @@ test('引力模式：600km 圆轨道两小时内半径漂移 < 0.5%', () => {
     minR = Math.min(minR, r); maxR = Math.max(maxR, r);
   }
   const drift = (maxR - minR) / r0;
-  assert.ok(drift < 0.005, `圆轨道半径漂移 ${(drift * 100).toFixed(3)}% 超过 0.5%`);
+  assert.ok(drift < 0.005, `Circular orbit radius drift ${(drift * 100).toFixed(3)}% exceeds 0.5%`);
 });
 
-test('街机模式松手会掉速；引力模式不会', () => {
+test('Arcade mode decelerates on input release; gravity mode conserves velocity', () => {
   const speedAfter = (gravityMode) => {
     const earth = makeEarth(600);
     const s = new Ship();
@@ -69,11 +67,11 @@ test('街机模式松手会掉速；引力模式不会', () => {
     for (let i = 0; i < 200; i++) s.update(0.016, idleInput, makeEnv(earth));
     return s.vel.length();
   };
-  assert.ok(speedAfter(false) < 1, '街机模式松手后应明显掉速');
-  assert.ok(speedAfter(true) > 7, '引力模式松手后速度应基本守恒');
+  assert.ok(speedAfter(false) < 1, 'Arcade mode should decelerate significantly after release');
+  assert.ok(speedAfter(true) > 7, 'Gravity mode should conserve velocity after release');
 });
 
-test('大气阻力：60km/7.8km/s 穿过大气后速度明显下降', () => {
+test('Atmospheric drag: high-speed flight (60km / 7.8km/s) produces measurable deceleration', () => {
   const atm = { rayleighScaleKm: 8.5, rho0: 1.225 };
   const earth = makeEarth(60, atm);
   const s = new Ship();
@@ -82,12 +80,12 @@ test('大气阻力：60km/7.8km/s 穿过大气后速度明显下降', () => {
   s.vel.set(0, 0, 7.8);
   const v0 = s.vel.length();
   for (let i = 0; i < 600; i++) s.update(0.016, idleInput, makeEnv(earth));   // ~10 s
-  assert.ok(s.vel.length() < v0 * 0.98, `阻力未生效：${v0} → ${s.vel.length()}`);
-  assert.ok(s.aero && s.aero.q > 1e4, `动压 ${s.aero?.q} 应 >10 kPa`);
+  assert.ok(s.vel.length() < v0 * 0.98, `Drag not effective: ${v0} -> ${s.vel.length()}`);
+  assert.ok(s.aero && s.aero.q > 1e4, `Dynamic pressure ${s.aero?.q} should be >10 kPa`);
 });
 
-test('真空里没有阻力（aero 归零）', () => {
-  const earth = makeEarth(600);               // 无 atmosphere
+test('No atmospheric drag in vacuum (aero is zero)', () => {
+  const earth = makeEarth(600);               // No atmosphere
   const s = new Ship();
   s.mode = 'fly'; s.gravityMode = true;
   s.posKm[0] = AU + R_EARTH + 600;
@@ -97,14 +95,14 @@ test('真空里没有阻力（aero 归零）', () => {
   assert.equal(s.aero.rho, 0);
 });
 
-test('aeroAt：60km 动压在真实峰值量级，120km 近乎真空', () => {
+test('aeroAt: dynamic pressure matches realistic peak at 60 km, near zero at 120 km', () => {
   const atm = { rayleighScaleKm: 8.5, rho0: 1.225 };
   const q60 = aeroAt(60, 7.8, atm).q;
-  assert.ok(q60 > 1e4 && q60 < 4e4, `60km 动压 ${(q60 / 1000).toFixed(1)} kPa 不在 10–40 kPa`);
-  assert.ok(aeroAt(120, 7.8, atm).q < 100, '120km 应接近真空');
+  assert.ok(q60 > 1e4 && q60 < 4e4, `60km dynamic pressure ${(q60 / 1000).toFixed(1)} kPa not in 10-40 kPa`);
+  assert.ok(aeroAt(120, 7.8, atm).q < 100, '120km should be near vacuum');
 });
 
-test('推进剂：引力模式下推力消耗 Δv 预算，耗尽后无法再加速', () => {
+test('Propellant: thrust consumes delta-v budget in gravity mode, cannot accelerate when depleted', () => {
   const earth = makeEarth(600);
   const s = new Ship();
   s.mode = 'fly'; s.gravityMode = true;
@@ -116,29 +114,29 @@ test('推进剂：引力模式下推力消耗 Δv 预算，耗尽后无法再加
     down: (c) => c === 'KeyW',
   };
   const dv0 = s.dvBudget;
-  assert.ok(dv0 > 5 && dv0 < 15, `Δv 预算 ${dv0} 不在 9.4 量级`);
+  assert.ok(dv0 > 5 && dv0 < 15, `delta-v budget ${dv0} not in order of 9.4`);
   for (let i = 0; i < 100; i++) s.update(0.05, thrustInput, makeEnv(earth));
-  assert.ok(s.dvBudget < dv0, '推力应消耗 Δv');
-  // 耗尽后速度不再增长（只剩引力）
+  assert.ok(s.dvBudget < dv0, 'Thrust should consume delta-v');
+  // Cannot accelerate when depleted
   s.dvBudget = 0;
   const v0 = s.vel.length();
   for (let i = 0; i < 20; i++) s.update(0.02, thrustInput, makeEnv(earth));
-  assert.ok(s.vel.length() <= v0 + 1e-6, 'Δv 耗尽后仍在加速');
+  assert.ok(s.vel.length() <= v0 + 1e-6, 'Accelerating after delta-v exhausted');
 });
 
-test('大气内有升力，且低于失速速度时骤降', () => {
+test('Aerodynamic lift drops precipitously below stall velocity', () => {
   const atm = { rayleighScaleKm: 8.5, rho0: 1.225 };
-  const earth = makeEarth(20, atm);          // 20km 高度，空气够稠
+  const earth = makeEarth(20, atm);          // 20km altitude, dense enough air
   const run = (speedKmS) => {
     const s = new Ship();
     s.mode = 'fly'; s.gravityMode = true;
     s.posKm[0] = AU + R_EARTH + 20;
-    s.vel.set(0, 0, speedKmS);               // 水平飞行
+    s.vel.set(0, 0, speedKmS);               // Horizontal flight
     for (let i = 0; i < 30; i++) s.update(0.016, idleInput, makeEnv(earth));
     return s.aero.liftMS ?? 0;
   };
   const fast = run(1.0);                     // 1000 m/s
-  const slow = run(0.03);                    // 30 m/s，低于失速速度
-  assert.ok(fast > 10, `高速时升力 ${fast.toFixed(0)} m/s² 太小（20km/1km/s 应约 2g）`);
-  assert.ok(slow < 1, `低速时升力 ${slow.toFixed(1)} m/s² 应接近 0（失速）`);
+  const slow = run(0.03);                    // 30 m/s, below stall speed
+  assert.ok(fast > 10, `High speed lift ${fast.toFixed(0)} m/s² too small (expected ~2g at 20km/1km/s)`);
+  assert.ok(slow < 1, `Low speed lift ${slow.toFixed(1)} m/s² should be near zero (stall)`);
 });

@@ -1,12 +1,10 @@
 // Ambient audio engine: purely procedural synthesis (Web Audio API), no external audio files.
 // Design goal: immersive without being intrusive - subtle volumes, muted by default, explicit user opt-in.
-//
 // Audio graph:
 //   [vacuum hiss]  ─┐
 //   [atmo wind]    ─┤
 //   [footstep]     ─┤→ bus(gain) → underwaterFilter(lowpass) → master(gain) → destination
 //   [bubble]       ─┘
-//
 // underwaterFilter is always in series on the main bus: 20kHz cutoff when above water (transparent),
 // drops to ~450Hz when submerged, applying muffled acoustics to all sounds.
 
@@ -246,7 +244,7 @@ export class AudioEngine {
     let engineTarget = 0;
     if (this._mode === 'fly' && !submerged) {
       const vKmS = Math.max(0, this._state.speed ?? 0);
-      const vNorm = Math.min(1, Math.log10(1 + vKmS * 1000) / 4);  // 1 m/s→0，10 km/s→1
+      const vNorm = Math.min(1, Math.log10(1 + vKmS * 1000) / 4);  // 1 m/s -> 0, 10 km/s -> 1
       engineTarget = 0.015 + vNorm * 0.055;
       this._engine.filter.frequency.setTargetAtTime(70 + vNorm * 130, now, 0.25);
     }

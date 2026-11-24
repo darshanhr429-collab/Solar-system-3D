@@ -14,9 +14,9 @@ const TABLE = {
   // ── Recognized Dwarf Planets ──────────────────────────────────────────
   // Ceres: IAU dwarf planet in the asteroid belt.
   // Although not in the TNO zone, the data structure here is fully applicable.
-  // Orbital elements at J2000: a=2.7675AU, e=0.07582, i=10.593°,
-  // Ω=80.305°、ϖ=73.597°→ω=353.292°、L=95.989°；
-  // Mean motion n=0.2141°/day ≈ 7820°/century (rate unit is per Julian century).
+  // Orbital elements at J2000: a=2.7675AU, e=0.07582, i=10.593 deg,
+  // node=80.305 deg, peri=73.597 deg -> omega=353.292 deg, L=95.989 deg;
+  // Mean motion n=0.2141 deg/day ≈ 7820 deg/century (rate unit is per Julian century).
   ceres: {
     // Note component 5 is longitude of perihelion ϖ (not argument of periapsis ω).
     // elementsToEcliptic computes omega = periDeg - nodeDeg internally.
@@ -230,14 +230,14 @@ const TABLE = {
   farout: {
     el: [317.0, 0.79300, 9.960, 56.5, 68.3, 125.70],
     rate: [0, 0, 0, 6.38, 0, 0],
-    nameZh: 'Farout（2018 VG18）', nameEn: 'Farout', radiusKm: 310,
+    nameZh: 'Farout (2018 VG18)', nameEn: 'Farout', radiusKm: 310,
     palette: 'ice',
     desc: 'Discovered in 2018 at ~124 AU from the Sun, this distant planetoid has a pinkish surface indicative of water ice and an orbital period exceeding 5,000 years.',
   },
   farfarout: {
     el: [312.0, 0.84200, 26.700, 353.6, 6.4, 84.90],
     rate: [0, 0, 0, 6.53, 0, 0],
-    nameZh: 'FarFarOut（2018 AG37）', nameEn: 'FarFarOut', radiusKm: 175,
+    nameZh: 'FarFarOut (2018 AG37)', nameEn: 'FarFarOut', radiusKm: 175,
     palette: 'ice',
     desc: 'Discovered at ~132 AU from the Sun, Farfarout travels on an eccentric 5,500-year orbit ranging from 50 AU out to 575 AU from the Sun.',
   },

@@ -1,6 +1,5 @@
 // 3D Compass widget: lightweight SVG compass at bottom right.
 // Displays local North, Zenith, Sun direction, and nearest body.
-//
 // Design highlights:
 // - Pure SVG rendering, lightweight and fast.
 // - Accepts {x,y,z} vectors and {x,y,z,w} quaternions.
@@ -13,7 +12,7 @@ import { t, LANG } from './i18n.js';
 
 // ── Local i18n Fallback Dictionary ──
 const I18N = {
-  'compass.title':   { zh: 'Compass (C)', en: 'Compass (C)', es: 'Brújula (C)', ja: 'コンパス（C）', fr: 'Boussole (C)', de: 'Kompass (C)', ru: 'Компас (C)' },
+  'compass.title':   { zh: 'Compass (C)', en: 'Compass (C)', es: 'Brújula (C)', ja: 'コンパス (C)', fr: 'Boussole (C)', de: 'Kompass (C)', ru: 'Компас (C)' },
   'compass.sun':     { zh: 'Sun', en: 'Sun', es: 'Sol', ja: 'Sun', fr: 'Soleil', de: 'Sonne', ru: 'Sun' },
   'compass.zenith':  { zh: 'Zenith', en: 'Zenith', es: 'Cenit', ja: 'Zenith', fr: 'Zénith', de: 'Zenit', ru: 'Zenith' },
   'compass.nearest': { zh: 'Nearest', en: 'Nearest', es: 'Cercano', ja: 'Nearest', fr: 'Proche', de: 'Nah', ru: 'Nearest' },

@@ -1,86 +1,76 @@
-// 循环安全性与新模块集成测试
-// 验证：loop() 中每个新模块在各种边界条件下不抛异常，
-// 且 try-catch 安全网确保 composer.render() 始终被执行（屏幕永不冻结）。
+// Loop safety and integration tests
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { DEMTileSource, DEM_SOURCES } from '../src/scene/demTiles.js';
 
-// ── DEMTileSource：离线回退 + 同步采样不抛异常 ──────────────────────
+// -- DEMTileSource: offline fallback and synchronous sampling without exceptions --
 
-test('DEMTileSource：无配置天体 hasSource=false', () => {
-  assert.equal(DEMTileSource.hasSource('ceres'), false); // 谷神星等无 DEM 配置
+test('DEMTileSource: unconfigured celestial body hasSource=false', () => {
+  assert.equal(DEMTileSource.hasSource('ceres'), false);
   assert.equal(DEMTileSource.hasSource('mercury'), false);
-  assert.equal(DEMTileSource.hasSource('earth'), true); // ETOPO1 已接入
+  assert.equal(DEMTileSource.hasSource('earth'), true);
   assert.equal(DEMTileSource.hasSource('moon'), true);
   assert.equal(DEMTileSource.hasSource('mars'), true);
 });
 
-test('DEMTileSource：离线后 getHeightSync 返回 null 不抛异常', () => {
+test('DEMTileSource: getHeightSync returns null without throwing when offline', () => {
   const src = new DEMTileSource('moon');
-  // 模拟离线
   src._offline = true;
   const dir = { x: 0, y: 1, z: 0 };
   assert.equal(src.getHeightSync(dir), null);
   assert.equal(src.getHeightSync({ x: 1, y: 0, z: 0 }), null);
 });
 
-test('DEMTileSource：缓存未命中 getHeightSync 返回 null 不抛异常', () => {
+test('DEMTileSource: getHeightSync returns null without throwing on cache miss', () => {
   const src = new DEMTileSource('moon');
-  // 未离线但无缓存
   assert.equal(src._offline, false);
   const h = src.getHeightSync({ x: 0, y: 1, z: 0 });
   assert.equal(h, null);
 });
 
-test('DEMTileSource：requestTiles 离线后为空操作不抛异常', () => {
+test('DEMTileSource: requestTiles is no-op without throwing when offline', () => {
   const src = new DEMTileSource('mars');
   src._offline = true;
   assert.doesNotThrow(() => src.requestTiles({ x: 0, y: 1, z: 0 }, 8));
   assert.doesNotThrow(() => src.requestTiles({ x: 1, y: 0, z: 0 }, 0));
 });
 
-test('DEMTileSource：requestTiles 未配置天体为空操作', () => {
-  const src = new DEMTileSource('mercury'); // mercury 无 DEM 配置
+test('DEMTileSource: requestTiles is no-op for unconfigured bodies', () => {
+  const src = new DEMTileSource('mercury');
   assert.equal(src.config, null);
   assert.doesNotThrow(() => src.requestTiles({ x: 0, y: 1, z: 0 }, 8));
 });
 
-test('DEMTileSource：getTile 离线后返回 null', async () => {
+test('DEMTileSource: getTile returns null when offline', async () => {
   const src = new DEMTileSource('moon');
   src._offline = true;
   const tile = await src.getTile(0, 0, 0);
   assert.equal(tile, null);
 });
 
-test('DEMTileSource：dispose 后所有操作安全', () => {
+test('DEMTileSource: all operations remain safe after dispose', () => {
   const src = new DEMTileSource('moon');
   src.dispose();
   assert.doesNotThrow(() => src.getHeightSync({ x: 0, y: 1, z: 0 }));
   assert.doesNotThrow(() => src.requestTiles({ x: 0, y: 1, z: 0 }, 8));
 });
 
-test('DEMTileSource：LRU 缓存淘汰不抛异常', () => {
+test('DEMTileSource: LRU cache eviction does not throw', () => {
   const src = new DEMTileSource('moon', { maxCache: 2 });
-  // 手动填充缓存超出上限
   src.cache.set(0, 0, 0, { data: new Float32Array(1), size: 1, level: 0 });
   src.cache.set(0, 1, 0, { data: new Float32Array(1), size: 1, level: 0 });
-  src.cache.set(0, 0, 1, { data: new Float32Array(1), size: 1, level: 0 }); // 淘汰 (0,0,0)
+  src.cache.set(0, 0, 1, { data: new Float32Array(1), size: 1, level: 0 });
   assert.equal(src.cache.size, 2);
-  // 全球基础瓦片固定保留；最久未用的非基础瓦片淘汰。
   assert.ok(src.cache.get(0, 0, 0));
   assert.equal(src.cache.get(0, 1, 0), undefined);
 });
 
-// ── 循环安全网模式验证 ──────────────────────────────────────────
-// 模拟 loop() 的 try-catch 安全网：验证任何区段抛异常都不阻止 composer.render()
+// -- Loop safety net validation --
 
-test('循环安全网：单区段异常不阻止后续区段与渲染', () => {
-  const log = [];
+test('Loop safety net: single section failure does not block subsequent sections or rendering', () => {
   const errors = [];
-  // 模拟 loopErr
   const loopErr = (tag, e) => errors.push({ tag, msg: e?.message || String(e) });
 
-  // 模拟 loop() 结构
   let rendered = false;
   const simulateLoop = (throwInSection) => {
     rendered = false;
@@ -95,22 +85,20 @@ test('循环安全网：单区段异常不阻止后续区段与渲染', () => {
     try { rendered = true; } catch (e) { errors.push({ tag: 'render', msg: e.message }); }
   };
 
-  // 每个区段单独抛异常时，渲染仍应执行
   for (const section of ['comets', 'tnoScene', 'modeUpdate', 'world', 'atmoFog', 'hud', 'fpsGuard', 'input']) {
     simulateLoop(section);
-    assert.equal(rendered, true, `composer.render() 未执行（${section} 抛异常后）`);
-    assert.equal(errors.length, 1, `应仅 1 个错误（${section}）`);
+    assert.equal(rendered, true, `composer.render() was not executed after ${section} error`);
+    assert.equal(errors.length, 1, `Expected exactly 1 error for ${section}`);
     assert.equal(errors[0].tag, section);
     errors.length = 0;
   }
 
-  // 无异常时正常渲染
   simulateLoop(null);
   assert.equal(rendered, true);
   assert.equal(errors.length, 0);
 });
 
-test('循环安全网：多个区段同时异常仍渲染', () => {
+test('Loop safety net: multiple concurrent section errors do not block rendering', () => {
   let rendered = false;
   const errors = [];
   const loopErr = (tag, e) => errors.push(tag);
@@ -120,23 +108,22 @@ test('循环安全网：多个区段同时异常仍渲染', () => {
   try { throw new Error('c'); } catch (e) { loopErr('hud', e); }
   try { rendered = true; } catch (e) { loopErr('render', e); }
 
-  assert.equal(rendered, true, '即使 3 个区段都异常，渲染仍应执行');
+  assert.equal(rendered, true, 'Rendering must execute even when 3 sections throw');
   assert.deepEqual(errors, ['comets', 'atmoFog', 'hud']);
 });
 
-// ── 浮动原点系统安全性 ──────────────────────────────────────────
+// -- Floating origin system safety --
 
-test('World.update：空实体列表不抛异常', async () => {
+test('World.update: empty entity list does not throw', async () => {
   const { World } = await import('../src/engine/floating.js');
   const world = new World();
   const camPos = new Float64Array([1e8, 2e8, 3e8]);
   assert.doesNotThrow(() => world.update(camPos));
 });
 
-test('World.register + update：实体位置正确平移', async () => {
+test('World.register + update: entity positions are correctly translated', async () => {
   const { World } = await import('../src/engine/floating.js');
   const world = new World();
-  // 简单 mock：记录 position.set 调用
   const mockObj = {
     _x: 0, _y: 0, _z: 0,
     position: {
@@ -149,7 +136,6 @@ test('World.register + update：实体位置正确平移', async () => {
   const posKm = new Float64Array([100, 200, 300]);
   assert.doesNotThrow(() => world.register(posKm, mockObj));
   world.update(new Float64Array([50, 60, 70]));
-  // 位置 = 实体绝对坐标 − 相机坐标
   assert.equal(mockObj._x, 50);
   assert.equal(mockObj._y, 140);
   assert.equal(mockObj._z, 230);

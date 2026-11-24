@@ -8,7 +8,7 @@ export { LANG };
 const D = {
   'tgt.ephemMeasured': { zh: 'Orbit: interpolated JPL ephemeris', en:'Orbit: interpolated JPL ephemeris', es:'Órbita: efemérides JPL interpoladas', ja: 'Orbit: interpolated JPL ephemeris', fr:'Orbite : éphémérides JPL interpolées', de:'Bahn: interpolierte JPL-Ephemeriden', ru:'Орбита: интерполяция эфемерид JPL' },
   'tgt.ephemApprox': { zh: 'Orbit: approximate model (JPL calibration unavailable at this time)', en:'Orbit: approximate model (JPL calibration unavailable at this time)', es:'Órbita: modelo aproximado (sin calibración JPL para esta fecha)', ja: 'Orbit: approximate model (JPL calibration unavailable at this time)', fr:'Orbite : modèle approché (sans calibration JPL à cette date)', de:'Bahn: Näherungsmodell (keine JPL-Kalibrierung für diesen Zeitpunkt)', ru:'Орбита: приближённая модель (нет калибровки JPL для этой даты)' },
-  // ── （HUD ）────────────────────────────────────────────────
+  // ── (HUD )────────────────────────────────────────────────
   'u.year':   { zh: 'yr',   en: 'yr',  es: 'a',    ja: 'yr',     fr: 'an',   de: 'J',    ru: 'г' },
   'u.month':  { zh: 'mo',   en: 'mo',  es: 'mes',  ja: 'mo',     fr: 'mois', de: 'Mo',   ru: 'мес' },
   'u.week':   { zh: 'wk',   en: 'wk',  es: 'sem',  ja: 'wk',     fr: 'sem',  de: 'Wo',   ru: 'нед' },
@@ -25,7 +25,7 @@ const D = {
 
   // ──  ─────────────────────────────────────────────────────────
   'time.paused': { zh: '⏸ Paused', en: '⏸ Paused', es: '⏸ En pausa', ja: '⏸ Paused', fr: '⏸ En pause', de: '⏸ Pausiert', ru: '⏸ Пауза' },
-  'time.realtime': { zh: '1× (real-time)', en: '1× (real-time)', es: '1× (tiempo real)', ja: '1×（リアルタイム）', fr: '1× (temps réel)', de: '1× (Echtzeit)', ru: '1× (реальное время)' },
+  'time.realtime': { zh: '1× (real-time)', en: '1× (real-time)', es: '1× (tiempo real)', ja: '1×(リアルタイム)', fr: '1× (temps réel)', de: '1× (Echtzeit)', ru: '1× (реальное время)' },
   'time.rate': { zh: 'Time warp', en: 'Time warp', es: 'Velocidad temporal', ja: 'タイムワープ', fr: 'Accélération temporelle', de: 'Zeitraffer', ru: 'Ускорение времени' },
   'time.k.minus': { zh: 'slower', en: 'slower', es: 'más lento', ja: 'slower', fr: 'plus lent', de: 'langsamer', ru: 'медленнее' },
   'time.k.plus': { zh: 'faster', en: 'faster', es: 'más rápido', ja: 'faster', fr: 'plus vite', de: 'schneller', ru: 'быстрее' },
@@ -57,42 +57,42 @@ const D = {
   'nav.goingTo': { zh: 'To {name}', en: 'To {name}', es: 'Hacia {name}', ja: '{name}へ', fr: 'Vers {name}', de: 'Nach {name}', ru: 'К {name}' },
   'nav.orbiting': { zh: 'Orbiting: {name}', en: 'Orbiting: {name}', es: 'Orbitando: {name}', ja: 'Orbiting: {name}', fr: 'En orbite : {name}', de: 'Umlaufbahn: {name}', ru: 'На орбите: {name}' },
   'nav.speed': { zh: 'Speed {v}', en: 'Speed {v}', es: 'Velocidad {v}', ja: 'Speed {v}', fr: 'Vitesse {v}', de: 'Geschwindigkeit {v}', ru: 'Скорость {v}' },
-  'nav.gear': { zh: '　gear {v} (scroll)', en: '　gear {v} (scroll)', es: '　marcha {v} (rueda)', ja: '　ギア {v}（スクロール）', fr: '　rapport {v} (molette)', de: '　Gang {v} (Scrollen)', ru: '　передача {v} (прокрутка)' },
-  'nav.nearest': { zh: 'Nearest: {name}　alt {alt}', en: 'Nearest: {name}　alt {alt}', es: 'Más cercano: {name}　alt {alt}', ja: 'Nearest: {name}　alt {alt}', fr: 'Plus proche : {name}　alt {alt}', de: 'Nächster: {name}　Höhe {alt}', ru: 'Ближайший: {name}　выс. {alt}' },
+  'nav.gear': { zh: ' gear {v} (scroll)', en: ' gear {v} (scroll)', es: ' marcha {v} (rueda)', ja: ' ギア {v}(スクロール)', fr: ' rapport {v} (molette)', de: ' Gang {v} (Scrollen)', ru: ' передача {v} (прокрутка)' },
+  'nav.nearest': { zh: 'Nearest: {name} alt {alt}', en: 'Nearest: {name} alt {alt}', es: 'Más cercano: {name} alt {alt}', ja: 'Nearest: {name} alt {alt}', fr: 'Plus proche : {name} alt {alt}', de: 'Nächster: {name} Höhe {alt}', ru: 'Ближайший: {name} выс. {alt}' },
   'nav.gravity': { zh: 'Surface gravity {g} m/s²', en: 'Surface gravity {g} m/s²', es: 'Gravedad superficial {g} m/s²', ja: 'Surface gravity {g} m/s²', fr: 'Gravité de surface {g} m/s²', de: 'Oberflächengravitation {g} m/s²', ru: 'Гравитация на поверхности {g} m/s²' },
   'nav.hintFly': { zh: 'Free flight', en: 'Free flight', es: 'Vuelo libre', ja: 'Free flight', fr: 'Vol libre', de: 'Freier Flug', ru: 'Свободный полёт' },
   'nav.hintGoto': { zh: 'Go to selected', en: 'Go to selected', es: 'Ir al seleccionado', ja: 'Go to selected', fr: 'Aller à la sélection', de: 'Zum Ausgewählten', ru: 'К выбранному' },
 
   // ──  ─────────────────────────────────────────────────────
   'tgt.none': {
-    zh: 'No target selected — click label to select, double-click/search/directory to travel<br>Number keys 1-9/0 to visit planets',
-    en: 'No target — click a label to select; double-click/search/directory to fly<br>Keys 1-9/0 jump to planets',
-    es: 'Sin objetivo — clic en una etiqueta para seleccionar; doble clic/búsqueda/directorio para volar<br>Teclas 1-9/0 saltan a planetas',
+    zh: 'No target selected  -  click label to select, double-click/search/directory to travel<br>Number keys 1-9/0 to visit planets',
+    en: 'No target  -  click a label to select; double-click/search/directory to fly<br>Keys 1-9/0 jump to planets',
+    es: 'Sin objetivo  -  clic en una etiqueta para seleccionar; doble clic/búsqueda/directorio para volar<br>Teclas 1-9/0 saltan a planetas',
     ja: '',
-    fr: 'Pas de cible — cliquez sur une étiquette pour sélectionner ; double-clic/recherche/annuaire pour voler<br>Touche 1-9/0 = planètes',
-    de: 'Kein Ziel — Etikett klicken zum Auswählen; Doppelklick/Suche/Verzeichnis zum Fliegen<br>Tasten 1-9/0 springen zu Planeten',
-    ru: 'Нет цели — кликните по метке для выбора; двойной клик/поиск/каталог для полёта<br>Клавиши 1-9/0 — к планетам',
+    fr: 'Pas de cible  -  cliquez sur une étiquette pour sélectionner ; double-clic/recherche/annuaire pour voler<br>Touche 1-9/0 = planètes',
+    de: 'Kein Ziel  -  Etikett klicken zum Auswählen; Doppelklick/Suche/Verzeichnis zum Fliegen<br>Tasten 1-9/0 springen zu Planeten',
+    ru: 'Нет цели  -  кликните по метке для выбора; двойной клик/поиск/каталог для полёта<br>Клавиши 1-9/0  -  к планетам',
   },
-  'tgt.dist': { zh: 'Distance {d}　<span class="dim">light-time {lt}</span>', en: 'Distance {d}　<span class="dim">light-time {lt}</span>', es: 'Distancia {d}　<span class="dim">tiempo de luz {lt}</span>', ja: 'Distance {d}　<span class="dim">light-time {lt}</span>', fr: 'Distance {d}　<span class="dim">temps de lumière {lt}</span>', de: 'Entfernung {d}　<span class="dim">Lichtzeit {lt}</span>', ru: 'Расстояние {d}　<span class="dim">световое время {lt}</span>' },
+  'tgt.dist': { zh: 'Distance {d} <span class="dim">light-time {lt}</span>', en: 'Distance {d} <span class="dim">light-time {lt}</span>', es: 'Distancia {d} <span class="dim">tiempo de luz {lt}</span>', ja: 'Distance {d} <span class="dim">light-time {lt}</span>', fr: 'Distance {d} <span class="dim">temps de lumière {lt}</span>', de: 'Entfernung {d} <span class="dim">Lichtzeit {lt}</span>', ru: 'Расстояние {d} <span class="dim">световое время {lt}</span>' },
   'tgt.dSun': { zh: 'From Sun {au} AU', en: 'From Sun {au} AU', es: 'Del Sol {au} AU', ja: 'From Sun {au} AU', fr: 'Du Soleil {au} UA', de: 'Von der Sonne {au} AE', ru: 'От Солнца {au} а.е.' },
   'tgt.radius': { zh: 'Radius {r} km', en: 'Radius {r} km', es: 'Radio {r} km', ja: 'Radius {r} km', fr: 'Rayon {r} km', de: 'Radius {r} km', ru: 'Радиус {r} км' },
   'tgt.gravity': { zh: 'Surface gravity {g} m/s²', en: 'Surface gravity {g} m/s²', es: 'Gravedad superficial {g} m/s²', ja: 'Surface gravity {g} m/s²', fr: 'Gravité de surface {g} m/s²', de: 'Oberflächengravitation {g} m/s²', ru: 'Гравитация на поверхности {g} m/s²' },
   'tgt.period': { zh: 'Orbital period {p}', en: 'Orbital period {p}', es: 'Período orbital {p}', ja: 'Orbital period {p}', fr: 'Période orbitale {p}', de: 'Umlaufperiode {p}', ru: 'Период обращения {p}' },
   'tgt.rotation': { zh: 'Rotation period {p}', en: 'Rotation period {p}', es: 'Período de rotación {p}', ja: 'Rotation period {p}', fr: 'Période de rotation {p}', de: 'Rotationsperiode {p}', ru: 'Период вращения {p}' },
-  'tgt.fact': { zh: '📚 <b>Did you know</b>　', en: '📚 <b>Did you know</b>　', es: '📚 <b>¿Sabías que?</b>　', ja: '📚 <b>Did you know</b>　', fr: '📚 <b>Le saviez-vous ?</b>　', de: '📚 <b>Wusstest du schon?</b>　', ru: '📚 <b>Знаете ли вы?</b>　' },
+  'tgt.fact': { zh: '📚 <b>Did you know</b> ', en: '📚 <b>Did you know</b> ', es: '📚 <b>¿Sabías que?</b> ', ja: '📚 <b>Did you know</b> ', fr: '📚 <b>Le saviez-vous ?</b> ', de: '📚 <b>Wusstest du schon?</b> ', ru: '📚 <b>Знаете ли вы?</b> ' },
   'tgt.factNext': { zh: 'Another ↻', en: 'Another ↻', es: 'Otra ↻', ja: 'Another ↻', fr: 'Une autre ↻', de: 'Eine andere ↻', ru: 'Ещё ↻' },
   'tgt.goto': { zh: '<span class="key">T</span> Fly there', en: '<span class="key">T</span> Fly there', es: '<span class="key">T</span> Volar allí', ja: '<span class="key">T</span> Fly there', fr: '<span class="key">T</span> Y voler', de: '<span class="key">T</span> Dorthin fliegen', ru: '<span class="key">T</span> Лететь туда' },
 
-  // ── （tips）──────────────────────────────────────────────────────
+  // ── (tips)──────────────────────────────────────────────────────
   'tip.quality': { zh: 'Quality lowered automatically for smooth performance', en: 'Quality lowered automatically for smooth performance', es: 'Calidad reducida automáticamente para un rendimiento fluido', ja: 'Quality lowered automatically for smooth performance', fr: 'Qualité réduite automatiquement pour des performances fluides', de: 'Qualität automatisch gesenkt für flüssige Leistung', ru: 'Качество автоматически снижено для плавной работы' },
   'hud.dv': { zh: 'Δv remaining {v} km/s', en: 'Δv remaining {v} km/s', es: 'Δv restante {v} km/s', ja: 'Δv remaining {v} km/s', fr: 'Δv restant {v} km/s', de: 'Δv verbleibend {v} km/s', ru: 'Остаток Δv {v} км/с' },
-  'tip.terrainLoading': { zh: 'Terrain is still loading — try again in a moment', en: 'Terrain is still loading — try again in a moment', es: 'El terreno aún se está cargando', ja: 'Terrain is still loading — try again in a moment', fr: 'Le terrain est en cours de chargement', de: 'Gelände wird noch geladen', ru: 'Рельеф ещё загружается' },
-  'tip.compareOn': { zh: 'Earth–Moon scale comparison: ON', en: 'Earth–Moon scale comparison: ON', es: 'Comparación de escala: ON', ja: 'Earth–Moon scale comparison: ON', fr: 'Comparaison d’échelle : ON', de: 'Größenvergleich: AN', ru: 'Сравнение масштабов: ВКЛ' },
-  'tip.compareOff': { zh: 'Earth–Moon scale comparison: OFF', en: 'Earth–Moon scale comparison: OFF', es: 'Comparación de escala: OFF', ja: 'Earth–Moon scale comparison: OFF', fr: 'Comparaison d’échelle : OFF', de: 'Größenvergleich: AUS', ru: 'Сравнение масштабов: ВЫКЛ' },
-  'tip.starsUnavailable': { zh: 'Star catalog failed to load — sky reduced to a synthetic background', en: 'Star catalog failed to load — sky reduced to a synthetic background', es: 'No se pudo cargar el catálogo estelar', ja: 'Star catalog failed to load — sky reduced to a synthetic background', fr: 'Échec du chargement du catalogue stellaire', de: 'Sternkatalog konnte nicht geladen werden', ru: 'Не удалось загрузить каталог звёзд' },
+  'tip.terrainLoading': { zh: 'Terrain is still loading  -  try again in a moment', en: 'Terrain is still loading  -  try again in a moment', es: 'El terreno aún se está cargando', ja: 'Terrain is still loading  -  try again in a moment', fr: 'Le terrain est en cours de chargement', de: 'Gelände wird noch geladen', ru: 'Рельеф ещё загружается' },
+  'tip.compareOn': { zh: 'Earth–Moon scale comparison: ON', en: 'Earth–Moon scale comparison: ON', es: 'Comparación de escala: ON', ja: 'Earth–Moon scale comparison: ON', fr: "Comparaison d'échelle : ON", de: 'Größenvergleich: AN', ru: 'Сравнение масштабов: ВКЛ' },
+  'tip.compareOff': { zh: 'Earth–Moon scale comparison: OFF', en: 'Earth–Moon scale comparison: OFF', es: 'Comparación de escala: OFF', ja: 'Earth–Moon scale comparison: OFF', fr: "Comparaison d'échelle : OFF", de: 'Größenvergleich: AUS', ru: 'Сравнение масштабов: ВЫКЛ' },
+  'tip.starsUnavailable': { zh: 'Star catalog failed to load  -  sky reduced to a synthetic background', en: 'Star catalog failed to load  -  sky reduced to a synthetic background', es: 'No se pudo cargar el catálogo estelar', ja: 'Star catalog failed to load  -  sky reduced to a synthetic background', fr: 'Échec du chargement du catalogue stellaire', de: 'Sternkatalog konnte nicht geladen werden', ru: 'Не удалось загрузить каталог звёзд' },
   'tip.tnoOrbitsOn': { zh: 'Trans-Neptunian orbits: ON', en: 'Trans-Neptunian orbits: ON', es: 'Órbitas transneptunianas: ON', ja: 'Trans-Neptunian orbits: ON', fr: 'Orbites transneptuniennes : ON', de: 'Transneptunische Orbits: AN', ru: 'Орбиты транснептуновых объектов: ВКЛ' },
   'tip.tnoOrbitsOff': { zh: 'Trans-Neptunian orbits: OFF', en: 'Trans-Neptunian orbits: OFF', es: 'Órbitas transneptunianas: OFF', ja: 'Trans-Neptunian orbits: OFF', fr: 'Orbites transneptuniennes : OFF', de: 'Transneptunische Orbits: AUS', ru: 'Орбиты транснептуновых объектов: ВЫКЛ' },
-  'tip.cinematicOn': { zh: '🎬 Clean mode: all overlays hidden (press Z again to restore)', en: '🎬 Clean mode: all overlays hidden (press Z again to restore)', es: '🎬 Modo limpio: interfaz oculta (pulsa Z para volver)', ja: '🎬 Clean mode: all overlays hidden (press Z again to restore)', fr: '🎬 Mode épuré : interface masquée (Z pour revenir)', de: '🎬 Sauberer Modus: alle Overlays aus (Z zum Zurückholen)', ru: '🎬 Чистый режим: интерфейс скрыт (Z — вернуть)' },
+  'tip.cinematicOn': { zh: '🎬 Clean mode: all overlays hidden (press Z again to restore)', en: '🎬 Clean mode: all overlays hidden (press Z again to restore)', es: '🎬 Modo limpio: interfaz oculta (pulsa Z para volver)', ja: '🎬 Clean mode: all overlays hidden (press Z again to restore)', fr: '🎬 Mode épuré : interface masquée (Z pour revenir)', de: '🎬 Sauberer Modus: alle Overlays aus (Z zum Zurückholen)', ru: '🎬 Чистый режим: интерфейс скрыт (Z  -  вернуть)' },
   'tip.cinematicOff': { zh: 'Overlays restored', en: 'Overlays restored', es: 'Interfaz restaurada', ja: 'Overlays restored', fr: 'Interface restaurée', de: 'Overlays wieder an', ru: 'Интерфейс восстановлен' },
   'tip.pendingFocus': {
     zh: '🎯 Target selected: {name} (scroll or PageUp/Down to approach/recede)',
@@ -112,7 +112,7 @@ const D = {
     de: '🎯 Fokus gesperrt: {name} (reinzoomen zum direkten Landen)',
     ru: '🎯 Фокус захвачен: {name} (прокрутка к себе для прямой посадки)',
   },
-  'tip.flyingTo': { zh: '✈ Flying to {name}… (drag to cancel)', en: '✈ Flying to {name}… (drag to cancel)', es: '✈ Volando hacia {name}… (arrastrar para cancelar)', ja: '✈ Flying to {name}… (drag to cancel)', fr: '✈ En vol vers {name}… (glisser pour annuler)', de: '✈ Flug nach {name}… (ziehen zum Abbrechen)', ru: '✈ Полёт к {name}… (перетаскивание для отмены)' },
+  'tip.flyingTo': { zh: '✈ Flying to {name}... (drag to cancel)', en: '✈ Flying to {name}... (drag to cancel)', es: '✈ Volando hacia {name}... (arrastrar para cancelar)', ja: '✈ Flying to {name}... (drag to cancel)', fr: '✈ En vol vers {name}... (glisser pour annuler)', de: '✈ Flug nach {name}... (ziehen zum Abbrechen)', ru: '✈ Полёт к {name}... (перетаскивание для отмены)' },
   'tip.lockHint': { zh: 'Click to lock the pointer and aim with the crosshair', en: 'Click to lock the pointer and aim with the crosshair', es: 'Clic para bloquear el puntero y apuntar con la mira', ja: 'Click to lock the pointer and aim with the crosshair', fr: 'Cliquez pour verrouiller le pointeur et viser avec le réticule', de: 'Klicken zum Sperren des Zeigers und Zielen mit dem Fadenkreuz', ru: 'Кликните для захвата курсора и наведения перекрестием' },
   'tip.aimHint': { zh: 'Move the mouse to aim; click to select', en: 'Move the mouse to aim; click to select', es: 'Mueve el ratón para apuntar; clic para seleccionar', ja: 'Move the mouse to aim; click to select', fr: 'Bougez la souris pour viser ; cliquez pour sélectionner', de: 'Maus bewegen zum Zielen; Klick zum Auswählen', ru: 'Двигайте мышь для наведения; клик для выбора' },
   'tip.landHint': { zh: 'Keep scrolling in = land on {name} (or press G to land now)', en: 'Keep scrolling in = land on {name} (or press G to land now)', es: 'Seguir desplazando = aterrizar en {name} (o presiona G para aterrizar ahora)', ja: 'Keep scrolling in = land on {name} (or press G to land now)', fr: 'Continuer à zoomer = atterrir sur {name} (ou G pour atterrir maintenant)', de: 'Weiter reinzoomen = auf {name} landen (oder G für sofortige Landung)', ru: 'Продолжайте прокрутку = посадка на {name} (или G для немедленной посадки)' },
@@ -148,7 +148,7 @@ const D = {
     ru: 'Кликните для захвата курсора и осмотра (или перетаскивание) · прокрутка от себя для взлёта',
   },
   'tip.landNear': { zh: 'Keep scrolling in = land on {name} (or press G to land now)', en: 'Keep scrolling in = land on {name} (or press G to land now)', es: 'Seguir desplazando = aterrizar en {name} (o presiona G para aterrizar ahora)', ja: 'Keep scrolling in = land on {name} (or press G to land now)', fr: 'Continuer à zoomer = atterrir sur {name} (ou G pour atterrir maintenant)', de: 'Weiter reinzoomen = auf {name} landen (oder G für sofortige Landung)', ru: 'Продолжайте прокрутку = посадка на {name} (или G для немедленной посадки)' },
-  'tip.urlCopied': { zh: '🔗 Link copied to clipboard (Ctrl+L)', en: '🔗 Link copied to clipboard (Ctrl+L)', es: '🔗 Enlace copiado al portapapeles (Ctrl+L)', ja: '🔗 リンクをクリップボードにコピー（Ctrl+L）', fr: '🔗 Lien copié dans le presse-papiers (Ctrl+L)', de: '🔗 Link in die Zwischenablage kopiert (Strg+L)', ru: '🔗 Ссылка скопирована в буфер обмена (Ctrl+L)' },
+  'tip.urlCopied': { zh: '🔗 Link copied to clipboard (Ctrl+L)', en: '🔗 Link copied to clipboard (Ctrl+L)', es: '🔗 Enlace copiado al portapapeles (Ctrl+L)', ja: '🔗 リンクをクリップボードにコピー(Ctrl+L)', fr: '🔗 Lien copié dans le presse-papiers (Ctrl+L)', de: '🔗 Link in die Zwischenablage kopiert (Strg+L)', ru: '🔗 Ссылка скопирована в буфер обмена (Ctrl+L)' },
   'tip.urlUpdated': { zh: '🔗 Address bar updated (Ctrl+L)', en: '🔗 Address bar updated (Ctrl+L)', es: '🔗 Barra de direcciones actualizada (Ctrl+L)', ja: '🔗 Address bar updated (Ctrl+L)', fr: '🔗 Barre d\'adresse mise à jour (Ctrl+L)', de: '🔗 Adressleiste aktualisiert (Strg+L)', ru: '🔗 Адресная строка обновлена (Ctrl+L)' },
   'tip.bookmarkSaved': { zh: '🔖 Bookmark saved: {name} (Ctrl+Shift+B to jump back)', en: '🔖 Bookmark saved: {name} (Ctrl+Shift+B to jump back)', es: '🔖 Marcador guardado: {name}', ja: '🔖 Bookmark saved: {name} (Ctrl+Shift+B to jump back)', fr: '🔖 Signet enregistré : {name}', de: '🔖 Lesezeichen gespeichert: {name}', ru: '🔖 Закладка сохранена: {name}' },
   'tip.bookmarkNone': { zh: '🔖 No bookmarks yet', en: '🔖 No bookmarks yet', es: '🔖 Sin marcadores', ja: '🔖 ブックマークなし', fr: '🔖 Aucun signet', de: '🔖 Keine Lesezeichen', ru: '🔖 Нет закладок' },
@@ -157,11 +157,11 @@ const D = {
   'tip.fov': { zh: '🔭 FOV {deg}° ≈ {mm}mm', en: '🔭 FOV {deg}° ≈ {mm}mm', es: '🔭 FOV {deg}° ≈ {mm}mm', ja: '🔭 FOV {deg}° ≈ {mm}mm', fr: '🔭 FOV {deg}° ≈ {mm}mm', de: '🔭 FOV {deg}° ≈ {mm}mm', ru: '🔭 FOV {deg}° ≈ {mm}mm' },
 
   // ── HUD  ─────────────────────────────────────────────────────────
-  'hud.flightTo': { zh: 'To {name}　{p}%', en: 'To {name}　{p}%', es: 'Hacia {name}　{p}%', ja: '{name}へ　{p}%', fr: 'Vers {name}　{p}%', de: 'Nach {name}　{p}%', ru: 'К {name}　{p}%' },
+  'hud.flightTo': { zh: 'To {name} {p}%', en: 'To {name} {p}%', es: 'Hacia {name} {p}%', ja: '{name}へ {p}%', fr: 'Vers {name} {p}%', de: 'Nach {name} {p}%', ru: 'К {name} {p}%' },
   'hud.orbitFocus': { zh: 'Orbiting: {name}', en: 'Orbiting: {name}', es: 'Orbitando: {name}', ja: 'Orbiting: {name}', fr: 'En orbite : {name}', de: 'Umlaufbahn: {name}', ru: 'На орбите: {name}' },
   'hud.speed': { zh: 'Speed {v}', en: 'Speed {v}', es: 'Velocidad {v}', ja: 'Speed {v}', fr: 'Vitesse {v}', de: 'Geschwindigkeit {v}', ru: 'Скорость {v}' },
-  'hud.gear': { zh: '　gear {v} (scroll)', en: '　gear {v} (scroll)', es: '　marcha {v} (rueda)', ja: '　ギア {v}（スクロール）', fr: '　rapport {v} (molette)', de: '　Gang {v} (Scrollen)', ru: '　передача {v} (прокрутка)' },
-  'hud.nearest': { zh: 'Nearest: {name}　alt {alt}', en: 'Nearest: {name}　alt {alt}', es: 'Más cercano: {name}　alt {alt}', ja: 'Nearest: {name}　alt {alt}', fr: 'Plus proche : {name}　alt {alt}', de: 'Nächster: {name}　Höhe {alt}', ru: 'Ближайший: {name}　выс. {alt}' },
+  'hud.gear': { zh: ' gear {v} (scroll)', en: ' gear {v} (scroll)', es: ' marcha {v} (rueda)', ja: ' ギア {v}(スクロール)', fr: ' rapport {v} (molette)', de: ' Gang {v} (Scrollen)', ru: ' передача {v} (прокрутка)' },
+  'hud.nearest': { zh: 'Nearest: {name} alt {alt}', en: 'Nearest: {name} alt {alt}', es: 'Más cercano: {name} alt {alt}', ja: 'Nearest: {name} alt {alt}', fr: 'Plus proche : {name} alt {alt}', de: 'Nächster: {name} Höhe {alt}', ru: 'Ближайший: {name} выс. {alt}' },
   'hud.surfaceGravity': { zh: 'Surface gravity {g} m/s²', en: 'Surface gravity {g} m/s²', es: 'Gravedad superficial {g} m/s²', ja: 'Surface gravity {g} m/s²', fr: 'Gravité de surface {g} m/s²', de: 'Oberflächengravitation {g} m/s²', ru: 'Гравитация на поверхности {g} m/s²' },
   'hud.hintFly': { zh: 'Free flight', en: 'Free flight', es: 'Vuelo libre', ja: 'Free flight', fr: 'Vol libre', de: 'Freier Flug', ru: 'Свободный полёт' },
   'hud.hintGoto': { zh: 'Go to selected', en: 'Go to selected', es: 'Ir al seleccionado', ja: 'Go to selected', fr: 'Aller à la sélection', de: 'Zum Ausgewählten', ru: 'К выбранному' },
@@ -195,7 +195,7 @@ const D = {
   'kind.poi': { zh: 'landmark', en: 'landmark', es: 'hito', ja: 'ランドマーク', fr: 'repère', de: 'Wahrzeichen', ru: 'ориентир' },
   'kind.tno': { zh: 'TNO', en: 'TNO', es: 'TNO', ja: 'TNO', fr: 'TNO', de: 'TNO', ru: 'ТНО' },
   'kind.region': { zh: 'region', en: 'region', es: 'región', ja: 'region', fr: 'région', de: 'Region', ru: 'регион' },
-  'search.ph': { zh: '🔍 Search bodies…', en: '🔍 Search bodies…', es: '🔍 Buscar…', ja: '🔍 Search bodies…', fr: '🔍 Rechercher…', de: '🔍 Suchen…', ru: '🔍 Поиск…' },
+  'search.ph': { zh: '🔍 Search bodies...', en: '🔍 Search bodies...', es: '🔍 Buscar...', ja: '🔍 Search bodies...', fr: '🔍 Rechercher...', de: '🔍 Suchen...', ru: '🔍 Поиск...' },
   'search.orbits': { zh: '🛤 Orbit lines', en: '🛤 Orbit lines', es: '🛤 Líneas orbitales', ja: '🛤 Orbit lines', fr: '🛤 Lignes d\'orbite', de: '🛤 Umlaufbahnen', ru: '🛤 Линии орбит' },
   'search.on': { zh: 'shown', en: 'shown', es: 'visible', ja: 'shown', fr: 'affiché', de: 'angezeigt', ru: 'показ.' },
   'search.off': { zh: 'hidden', en: 'hidden', es: 'oculto', ja: 'hidden', fr: 'masqué', de: 'versteckt', ru: 'скрыто' },
@@ -212,11 +212,11 @@ const D = {
     de: '1:1-Echtzeit-Sonnensystem · NASA-JPL-Ephemeriden erschaffen das System jetzt · erkunde das ganze Sonnensystem',
     ru: 'Солнечная система 1:1 в реальном времени · Эфемериды NASA JPL воссоздают систему сейчас · исследуйте всю Солнечную систему',
   },
-  'start.loading': { zh: 'Loading…', en: 'Loading…', es: 'Cargando…', ja: 'Loading…', fr: 'Chargement…', de: 'Laden…', ru: 'Загрузка…' },
-  'start.retryingGpu': { zh: 'Retrying graphics startup…', en: 'Retrying graphics startup…', es: 'Reintentando iniciar gráficos…', ja: 'Retrying graphics startup…', fr: 'Nouvel essai graphique…', de: 'Grafikstart wird wiederholt…', ru: 'Повторный запуск графики…' },
+  'start.loading': { zh: 'Loading...', en: 'Loading...', es: 'Cargando...', ja: 'Loading...', fr: 'Chargement...', de: 'Laden...', ru: 'Загрузка...' },
+  'start.retryingGpu': { zh: 'Retrying graphics startup...', en: 'Retrying graphics startup...', es: 'Reintentando iniciar gráficos...', ja: 'Retrying graphics startup...', fr: 'Nouvel essai graphique...', de: 'Grafikstart wird wiederholt...', ru: 'Повторный запуск графики...' },
   'start.retryGpu': { zh: 'Try again', en: 'Try again', es: 'Reintentar', ja: 'Try again', fr: 'Réessayer', de: 'Erneut versuchen', ru: 'Попробовать снова' },
-  'start.gpuUnavailable': { zh: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', en: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', es: 'El navegador no puede iniciar WebGL2. Comprueba la aceleración de hardware o reinicia el navegador y vuelve a intentarlo.', ja: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', fr: 'WebGL2 ne peut pas démarrer. Vérifiez l’accélération matérielle ou redémarrez le navigateur, puis réessayez.', de: 'WebGL2 kann nicht starten. Prüfen Sie die Hardwarebeschleunigung oder starten Sie den Browser neu und versuchen Sie es erneut.', ru: 'Браузер не может запустить WebGL2. Проверьте аппаратное ускорение или перезапустите браузер и повторите попытку.' },
-  'start.loadingTex': { zh: 'Loading real planet textures… {done}/{total}', en: 'Loading real planet textures… {done}/{total}', es: 'Cargando texturas reales de planetas… {done}/{total}', ja: 'Loading real planet textures… {done}/{total}', fr: 'Chargement des textures planétaires réelles… {done}/{total}', de: 'Echte Planetentexturen laden… {done}/{total}', ru: 'Загрузка текстур планет… {done}/{total}' },
+  'start.gpuUnavailable': { zh: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', en: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', es: 'El navegador no puede iniciar WebGL2. Comprueba la aceleración de hardware o reinicia el navegador y vuelve a intentarlo.', ja: 'The browser cannot start WebGL2. Check hardware acceleration or restart the browser, then try again.', fr: "WebGL2 ne peut pas démarrer. Vérifiez l'accélération matérielle ou redémarrez le navigateur, puis réessayez.", de: 'WebGL2 kann nicht starten. Prüfen Sie die Hardwarebeschleunigung oder starten Sie den Browser neu und versuchen Sie es erneut.', ru: 'Браузер не может запустить WebGL2. Проверьте аппаратное ускорение или перезапустите браузер и повторите попытку.' },
+  'start.loadingTex': { zh: 'Loading real planet textures... {done}/{total}', en: 'Loading real planet textures... {done}/{total}', es: 'Cargando texturas reales de planetas... {done}/{total}', ja: 'Loading real planet textures... {done}/{total}', fr: 'Chargement des textures planétaires réelles... {done}/{total}', de: 'Echte Planetentexturen laden... {done}/{total}', ru: 'Загрузка текстур планет... {done}/{total}' },
   'start.enter': { zh: 'Enter the solar system', en: 'Enter the solar system', es: 'Entrar al sistema solar', ja: 'Enter the solar system', fr: 'Entrer dans le système solaire', de: 'Sonnensystem betreten', ru: 'Войти в Солнечную систему' },
   'hud.hdLoading': { zh: 'Loading HD textures {pct}%', en: 'Loading HD textures {pct}%', es: 'Cargando texturas HD {pct}%', ja: 'Loading HD textures {pct}%', fr: 'Chargement des textures HD {pct}%', de: 'HD-Texturen laden {pct}%', ru: 'Загрузка HD-текстур {pct}%' },
   'start.hint': {
@@ -238,21 +238,21 @@ const D = {
     ru: 'Поворот одним пальцем · щипок для масштаба · двойное касание метки для полёта',
   },
   'start.star': { zh: 'Star on GitHub', en: 'Star on GitHub', es: 'Star en GitHub', ja: 'GitHubでスター', fr: 'Star sur GitHub', de: 'Auf GitHub starren', ru: 'Звезда на GitHub' },
-  'tip.gravityOn': { zh: '🛰 Real gravity: thrust adds acceleration only — free-fall and orbit (X clear disabled)', en: '🛰 Real gravity: thrust adds acceleration only — free-fall and orbit (X clear disabled)', es: '🛰 Gravedad real activada', ja: '🛰 Real gravity: thrust adds acceleration only — free-fall and orbit (X clear disabled)', fr: '🛰 Gravité réelle activée', de: '🛰 Echte Gravitation an', ru: '🛰 Реальная гравитация включена' },
+  'tip.gravityOn': { zh: '🛰 Real gravity: thrust adds acceleration only  -  free-fall and orbit (X clear disabled)', en: '🛰 Real gravity: thrust adds acceleration only  -  free-fall and orbit (X clear disabled)', es: '🛰 Gravedad real activada', ja: '🛰 Real gravity: thrust adds acceleration only  -  free-fall and orbit (X clear disabled)', fr: '🛰 Gravité réelle activée', de: '🛰 Echte Gravitation an', ru: '🛰 Реальная гравитация включена' },
   'tip.gravityOff': { zh: '🛰 Back to arcade flight', en: '🛰 Back to arcade flight', es: '🛰 Vuelo arcade', ja: '🛰 Back to arcade flight', fr: '🛰 Vol arcade', de: '🛰 Arcade-Flug', ru: '🛰 Аркадный полёт' },
   'hud.errCount': { zh: '⚠ Runtime errors {n} ({tag}) · click to copy', en: '⚠ Runtime errors {n} ({tag}) · click to copy', es: '⚠ Errores {n} · clic para copiar', ja: '⚠ Runtime errors {n} ({tag}) · click to copy', fr: '⚠ Erreurs {n} · cliquer pour copier', de: '⚠ Laufzeitfehler {n} · klicken zum Kopieren', ru: '⚠ Ошибок {n} · нажмите, чтобы скопировать' },
-  'hud.errHint': { zh: 'Main-loop errors were caught; the view may be incomplete', en: 'Main-loop errors were caught; the view may be incomplete', es: 'Errores capturados; la vista puede estar incompleta', ja: 'Main-loop errors were caught; the view may be incomplete', fr: 'Erreurs interceptées ; l’affichage peut être incomplet', de: 'Fehler abgefangen; die Ansicht kann unvollständig sein', ru: 'Ошибки перехвачены; изображение может быть неполным' },
+  'hud.errHint': { zh: 'Main-loop errors were caught; the view may be incomplete', en: 'Main-loop errors were caught; the view may be incomplete', es: 'Errores capturados; la vista puede estar incompleta', ja: 'Main-loop errors were caught; the view may be incomplete', fr: "Erreurs interceptées ; l'affichage peut être incomplet", de: 'Fehler abgefangen; die Ansicht kann unvollständig sein', ru: 'Ошибки перехвачены; изображение может быть неполным' },
   'hud.errCopied': { zh: 'Error details copied', en: 'Error details copied', es: 'Detalles copiados', ja: 'Error details copied', fr: 'Détails copiés', de: 'Details kopiert', ru: 'Подробности скопированы' },
-  'hud.audioOn': { zh: '🔊 Audio on (M to mute)', en: '🔊 Audio on (M to mute)', es: '🔊 Audio activado (M para silenciar)', ja: '🔊 Audio on (M to mute)', fr: '🔊 Son activé (M pour couper)', de: '🔊 Ton an (M zum Stummschalten)', ru: '🔊 Звук вкл (M — выключить)' },
-  'hud.audioOff': { zh: '🔇 Audio off (M to enable)', en: '🔇 Audio off (M to enable)', es: '🔇 Audio desactivado (M para activar)', ja: '🔇 Audio off (M to enable)', fr: '🔇 Son coupé (M pour activer)', de: '🔇 Ton aus (M zum Einschalten)', ru: '🔇 Звук выкл (M — включить)' },
+  'hud.audioOn': { zh: '🔊 Audio on (M to mute)', en: '🔊 Audio on (M to mute)', es: '🔊 Audio activado (M para silenciar)', ja: '🔊 Audio on (M to mute)', fr: '🔊 Son activé (M pour couper)', de: '🔊 Ton an (M zum Stummschalten)', ru: '🔊 Звук вкл (M  -  выключить)' },
+  'hud.audioOff': { zh: '🔇 Audio off (M to enable)', en: '🔇 Audio off (M to enable)', es: '🔇 Audio desactivado (M para activar)', ja: '🔇 Audio off (M to enable)', fr: '🔇 Son coupé (M pour activer)', de: '🔇 Ton aus (M zum Einschalten)', ru: '🔇 Звук выкл (M  -  включить)' },
   'tip.audioOn': { zh: '🔊 Audio on: engines, reentry, footsteps, vacuum hiss', en: '🔊 Audio on: engines, reentry, footsteps, vacuum hiss', es: '🔊 Audio activado', ja: '🔊 Audio on: engines, reentry, footsteps, vacuum hiss', fr: '🔊 Son activé', de: '🔊 Ton eingeschaltet', ru: '🔊 Звук включён' },
   'tip.audioOff': { zh: '🔇 Audio off', en: '🔇 Audio off', es: '🔇 Audio desactivado', ja: '🔇 Audio off', fr: '🔇 Son coupé', de: '🔇 Ton ausgeschaltet', ru: '🔇 Звук выключен' },
   'help.toggle': { zh: 'Controls (H to close)', en: 'Controls (H to close)', es: 'Controles (H para cerrar)', ja: 'Controls (H to close)', fr: 'Contrôles (H pour fermer)', de: 'Steuerung (H zum Schließen)', ru: 'Управление (H для закрытия)' },
 
   // ──  ─────────────────────────────────────────────────────
   'tc.menu':      { zh: '☰', en: '☰', es: '☰', ja: '☰', fr: '☰', de: '☰', ru: '☰' },
-  'tc.zoomIn':    { zh: '＋', en: '＋', es: '＋', ja: '＋', fr: '＋', de: '＋', ru: '＋' },
-  'tc.zoomOut':   { zh: '－', en: '－', es: '－', ja: '－', fr: '－', de: '－', ru: '－' },
+  'tc.zoomIn':    { zh: '+', en: '+', es: '+', ja: '+', fr: '+', de: '+', ru: '+' },
+  'tc.zoomOut':   { zh: '-', en: '-', es: '-', ja: '-', fr: '-', de: '-', ru: '-' },
   'tc.dir':       { zh: '🎯', en: '🎯', es: '🎯', ja: '🎯', fr: '🎯', de: '🎯', ru: '🎯' },
   'tc.target':    { zh: 'ℹ️', en: 'ℹ️', es: 'ℹ️', ja: 'ℹ️', fr: 'ℹ️', de: 'ℹ️', ru: 'ℹ️' },
   'tc.land':      { zh: '🛬 Land', en: '🛬 Land', es: '🛬 Aterrizar', ja: '🛬 Land', fr: '🛬 Atterrir', de: '🛬 Landen', ru: '🛬 Посадка' },
@@ -370,7 +370,7 @@ const HELP_EN = `
       <table>
         <tr><td>Mouse / W S A D</td><td>Look (360°) / walk (real surface gravity)</td></tr>
         <tr><td>Scroll back / PageUp</td><td><b>Seamless takeoff</b> back to explore (view preserved)</td></tr>
-        <tr><td>Scroll in at water / PageDown</td><td><b>Dive</b> — low-sensitivity rise/sink, stop to hover; surfacing restores automatically</td></tr>
+        <tr><td>Scroll in at water / PageDown</td><td><b>Dive</b>  -  low-sensitivity rise/sink, stop to hover; surfacing restores automatically</td></tr>
         <tr><td>Shift / Space</td><td>Run / jump (6× higher on the Moon); underwater Space = ascend</td></tr>
         <tr><td>G</td><td>Return to explore mode</td></tr>
       </table>
@@ -416,7 +416,7 @@ const HELP_TOUCH_EN = `
     <tr><td>Two-finger drag</td><td>Pan the space (no rotation)</td></tr>
     <tr><td>Tap a body / label</td><td>Select / lock focus</td></tr>
     <tr><td>Double-tap label</td><td>Fly to that body (GE animation)</td></tr>
-    <tr><td>＋ / － buttons</td><td>Hold to zoom in / out</td></tr>
+    <tr><td>+ / - buttons</td><td>Hold to zoom in / out</td></tr>
     <tr><td>🪐 button</td><td>Toggle body directory drawer</td></tr>
     <tr><td>🎯 button</td><td>Toggle selected-body info panel</td></tr>
     <tr><td>✈ button</td><td>Fly to selected body</td></tr>

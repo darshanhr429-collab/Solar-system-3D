@@ -74,7 +74,7 @@ export class HUD {
       `<div class="warn">${t('time.outOfRange')}</div>`;
     const timeHtml =
       `<div class="big">${local}</div>` +
-      `<div class="dim">${t('time.rate')} ${this.fmtWarp(clock)}　<span class="key">[</span>${t('time.k.minus')} <span class="key">]</span>${t('time.k.plus')} <span class="key">P</span>${t('time.k.pause')} <span class="key">N</span>${t('time.k.now')}</div>` + warn;
+      `<div class="dim">${t('time.rate')} ${this.fmtWarp(clock)} <span class="key">[</span>${t('time.k.minus')} <span class="key">]</span>${t('time.k.plus')} <span class="key">P</span>${t('time.k.pause')} <span class="key">N</span>${t('time.k.now')}</div>` + warn;
     // Second-level time string changes once per second; avoids rebuilding entire innerHTML every frame
     if (timeHtml !== this._timeHtml) { this._timeHtml = timeHtml; this.elTime.innerHTML = timeHtml; }
     const tcTimeEl = document.getElementById('tc-time-val');
@@ -107,10 +107,10 @@ export class HUD {
       rows.push(`<div>${t('hud.surfaceGravity', { g: gravity.toFixed(2) })}</div>`);
     }
     if (mode === 'orbit' && !flight) {
-      rows.push(`<div class="dim"><span class="key">F</span> ${t('hud.hintFly')}　<span class="key">T</span> ${t('hud.hintGoto')}</div>`);
+      rows.push(`<div class="dim"><span class="key">F</span> ${t('hud.hintFly')} <span class="key">T</span> ${t('hud.hintGoto')}</div>`);
     }
     // Only write to DOM when content changes. innerHTML triggers
-    // parse + layout + repaint — major UI overhead in main loop.
+    // parse + layout + repaint  -  major UI overhead in main loop.
     // String comparison is orders of magnitude cheaper than DOM writes.
     const navHtml = rows.join('');
     if (navHtml !== this._navHtml) { this._navHtml = navHtml; this.elNav.innerHTML = navHtml; }

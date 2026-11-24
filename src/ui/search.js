@@ -41,7 +41,7 @@ export class SearchUI {
         div.className = 'search-item' + (i === sel ? ' active' : '');
         if (it.special === 'orbits') {
           const on = this.opts.getOrbits?.() ?? true;
-          div.innerHTML = `<b>${t('search.orbits')}</b> <span>${t('search.cur')}：${on ? t('search.on') : t('search.off')}</span><em>${t('search.toggle')}</em>`;
+          div.innerHTML = `<b>${t('search.orbits')}</b> <span>${t('search.cur')}: ${on ? t('search.on') : t('search.off')}</span><em>${t('search.toggle')}</em>`;
           div.addEventListener('mousedown', (e) => {
             e.preventDefault();
             this.opts.toggleOrbits?.();

@@ -84,15 +84,15 @@ test('photographic adaptation hides stars over sunlit airless ground and preserv
   assert.ok(photoSkyVisibility(lunar) < 0.001);
   assert.equal(photoSkyVisibility({ ...lunar, sunElevation: -0.2 }), 1);
   assert.equal(photoSkyVisibility({ ...lunar, distanceKm: 5000, viewCosine: -1 }), 1);
-  // 空间视角**不衰减**：真空里天空是黑的，星点就该满亮度（线上同一机位是满天星）。
-  // 只有贴着白昼地面时才压暗，见上一行。
+  // Space view does not attenuate: in vacuum the sky is black, stars should be at full brightness.
+  // Only attenuate when near daytime ground surface, see previous line.
   assert.equal(photoSkyVisibility({ ...lunar, distanceKm: 5000, phaseCosine: 1 }), 1);
 });
 
 test('GPU profiles: integrated Low, discrete High, software/unknown Low; mobile always Low', () => {
-  // Apple M 系列不在集显之列：它是独立 GPU 核，走下面的代次细分（基础款 Medium、Pro/Max/Ultra High）
+  // Apple M series is not integrated: it has discrete GPU cores (base: Medium, Pro/Max/Ultra: High)
   for (const name of ['Intel(R) UHD Graphics 770','Intel Iris Xe','AMD Radeon(TM) Graphics','Apple GPU','Adreno 740','']) assert.equal(qualityProfile(name).tier,'low',name);
-  assert.equal(qualityProfile('Apple M2', true).tier, 'low', '移动端仍是 Low');
+  assert.equal(qualityProfile('Apple M2', true).tier, 'low', 'Mobile is still Low');
   for (const name of ['NVIDIA GeForce RTX 2080 Ti','AMD Radeon RX 7900 XT','Intel(R) Arc(TM) A770 Graphics']) assert.equal(qualityProfile(name).tier,'high',name);
   assert.equal(classifyGpu('ANGLE NVIDIA SwiftShader'),'software');
   assert.equal(qualityProfile('NVIDIA RTX 2080 Ti',true,'high').textureSize,2048);
@@ -100,52 +100,52 @@ test('GPU profiles: integrated Low, discrete High, software/unknown Low; mobile 
   assert.equal(qualityProfile('Intel UHD',false,'high').tier,'high');
 });
 
-test('独显按代次分 High/Medium：中端与旧卡不再被迫二选一', () => {
-  // 有余量的型号给 High
+test('Discrete GPUs split High/Medium by generation: mid-range and legacy cards no longer forced into binary choice', () => {
+  // Models with headroom get High
   for (const n of ['NVIDIA GeForce RTX 3060','NVIDIA GeForce GTX 1660','AMD Radeon RX 5700 XT',
     'Apple M1 Pro','Apple M3 Max','NVIDIA Quadro RTX 6000']) assert.equal(qualityProfile(n).tier,'high',n);
-  // 能跑但跑不满 High 的给 Medium（此前被归到 High 会掉帧，归到 Low 又白白牺牲画质）
+  // Models capable of running but not maxing High get Medium (previously fell back to Low or dropped frames in High)
   for (const n of ['NVIDIA GeForce GTX 750 Ti','NVIDIA GeForce GTX 960','AMD Radeon RX 480',
     'NVIDIA GeForce GT 1030','AMD Radeon RX 550','Apple M1','Apple M2','Apple M3']) {
     assert.equal(qualityProfile(n).tier,'medium',n);
   }
-  // 厂商名里夹 (TM)/(R) 时仍要认得出型号——'Arc(TM) A770' 曾因此被误判成 medium
+  // Vendor names containing (TM)/(R) should still match models -- Arc(TM) A770 was previously misclassified as medium
   assert.equal(qualityProfile('Intel(R) Arc(TM) A770 Graphics').tier,'high');
   assert.equal(qualityProfile('Intel(R) Arc(R) A380 Graphics').tier,'high');
-  // 集显/软件渲染/移动端一律不吃 Medium 这档
+  // Integrated/software/mobile GPUs do not receive Medium tier
   assert.equal(qualityProfile('Intel(R) UHD Graphics 770').tier,'low');
   assert.equal(qualityProfile('NVIDIA GeForce RTX 3060',true).tier,'low');
 });
 
-test('三档配置逐项单调：High ≥ Medium ≥ Low（否则档位名不副实）', () => {
-  const knob = (t, k) => qualityProfile('NVIDIA GeForce RTX 3060')[k];   // 取 High
+test('Three-tier configuration is monotonically non-increasing: High >= Medium >= Low', () => {
+  const knob = (t, k) => qualityProfile('NVIDIA GeForce RTX 3060')[k];   // Sample High
   const pick = (tier) => qualityProfile('x', false, tier);
   const hi = pick('high'), me = pick('medium'), lo = pick('low');
   assert.deepEqual([hi.tier, me.tier, lo.tier], ['high', 'medium', 'low']);
-  // 逐项：越大越费的值必须非增，越小越费的（网格步长没有，这里全是越大越费）
+  // Per-knob: higher cost settings must be non-increasing from High to Low
   for (const k of ['atmoN', 'cloudN', 'terrainGrid', 'shadowSize', 'textureSize', 'rockCount', 'anisotropy']) {
     assert.ok(hi[k] >= me[k] && me[k] >= lo[k],
-      `${k}: high ${hi[k]} / medium ${me[k]} / low ${lo[k]} 不是单调非增`);
+      `${k}: high ${hi[k]} / medium ${me[k]} / low ${lo[k]} is not monotonically non-increasing`);
   }
-  assert.ok(hi.pixelRatio >= me.pixelRatio && me.pixelRatio >= lo.pixelRatio, 'pixelRatio 不单调');
-  assert.ok(hi.targetFps >= me.targetFps && me.targetFps >= lo.targetFps, 'targetFps 不单调');
-  // 数组型（segHi/segLo）取两个分量都比
+  assert.ok(hi.pixelRatio >= me.pixelRatio && me.pixelRatio >= lo.pixelRatio, 'pixelRatio is not monotonic');
+  assert.ok(hi.targetFps >= me.targetFps && me.targetFps >= lo.targetFps, 'targetFps is not monotonic');
+  // Array knobs (segHi/segLo) check both components
   for (const k of ['segHi', 'segLo']) {
     assert.ok(hi[k][0] >= me[k][0] && me[k][0] >= lo[k][0] && hi[k][1] >= me[k][1] && me[k][1] >= lo[k][1],
-      `${k} 不单调`);
+      `${k} is not monotonic`);
   }
-  // 细节开关：High/Medium 开，Low 关
+  // Detail toggles: High/Medium on, Low off
   assert.equal(hi.detail, true); assert.equal(me.detail, true); assert.equal(lo.detail, false);
-  // Medium 必须与 Low 有实质差别，否则这一档是摆设
+  // Medium must have substantial difference from Low
   assert.ok(me.cloudN > lo.cloudN && me.atmoN > lo.atmoN && me.terrainGrid > lo.terrainGrid,
-    'Medium 与 Low 的渲染工作量没有实质差别');
+    'Medium and Low rendering workloads must have substantial difference');
   void knob;
 });
 
-test('体积云仍只给 High（Medium 带不动）', () => {
+test('Volumetric clouds remain High-only (Medium cannot maintain frame rate)', () => {
   const src = readFileSync(new URL('../src/scene/planetMaterial.js', import.meta.url), 'utf8');
   assert.ok(/QUALITY\.tier === 'high' && QUALITY\.detail/.test(src),
-    '体积云的门控被放宽到 High 以外——实测 Medium 只比 Low 贵 2 倍，加上体积云会直接翻三倍');
+    'Volumetric clouds gating relaxed outside High -- Medium is only 2x Low cost, volumetric clouds would 3x');
 });
 
 test('Renderer bootstrap retries temporary failure on a fresh canvas and default GPU preference', async () => {
@@ -327,33 +327,33 @@ test('XR session failure restores desktop resolution and ends the acquired sessi
   } finally { if(descriptor)Object.defineProperty(globalThis,'navigator',descriptor);else delete globalThis.navigator; }
 });
 
-// ── 发布星历：分片（format 2）──────────────────────────────────────────────
-// 窗口是 10 年，按年切分。运行时一次只取当前年份那一片，所以这里既校验
-// 每一片的完整性与格式，也校验运行时的分片查找行为。
+// -- Release ephemeris: sharded (format 2) --
+// 10-year window sharded by year. Runtime only fetches the shard for the current year,
+// so here we verify both shard format/integrity and runtime lookup behavior.
 const root=new URL('../public/data/ephemeris/',import.meta.url);
 const manifest=JSON.parse(readFileSync(new URL('manifest.json',root)));
 let shardTotal=0;
 for(const [id,entry] of Object.entries(manifest.bodies)) {
   const years=Object.keys(entry.files??{});
-  assert.ok(years.length>=1,id+' 没有分片');
+  assert.ok(years.length>=1,id+' has no shards');
   assert.equal(entry.format,['moon','lunar'].includes(entry.kind)?2:1,
-    id+' 的精度档不符（卫星应为 float32，日心矢量应为 float64）');
+    id+' precision tier mismatch (moons should be float32, heliocentric vectors should be float64)');
   for(const [year,file] of Object.entries(entry.files)) {
     const bytes=readFileSync(new URL(file.file,root));
-    assert.equal(bytes.length,file.bytes,`${id} ${year} 字节数不符`);
-    assert.equal(createHash('sha256').update(bytes).digest('hex'),file.sha256,`${id} ${year} 校验和不符`);
+    assert.equal(bytes.length,file.bytes,`${id} ${year} byte count mismatch`);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),file.sha256,`${id} ${year} checksum mismatch`);
     installEphemeris(id,bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength));
     shardTotal++;
   }
-  assert.equal(ephemerisCoverage(id).shards,years.length,id+' 分片数不符');
+  assert.equal(ephemerisCoverage(id).shards,years.length,id+' shard count mismatch');
 }
 assert.ok(shardTotal>=Object.keys(manifest.bodies).length,
-  '窗口应已按年分片（片数应多于目标数）');
+  'Window should be sharded by year (shard count should exceed target body count)');
 
-test('分片在整条时间轴上无缝（不得开天窗）', () => {
-  // 步长未必整除闰年的 366 天（例如 5 天步长：366/5 = 73.2）。
-  // 若每片恰好止于次年 1 月 1 日，年份接缝上会漏掉整整一天，
-  // 那一天 HUD 会把近似模型当成"已覆盖 JPL 插值"。抓取时每片多给一步即可覆盖。
+test('Shards are continuous across entire time range (no gaps)', () => {
+  // Step size may not divide evenly into leap year 366 days (e.g. 5-day step: 366/5 = 73.2).
+  // If shards end strictly at next Jan 1, year boundaries would leave a 1-day gap,
+  // causing HUD to treat approximate model as covered JPL interpolation. Fetching adds 1 extra step.
   const gaps=[];
   for(const [id,entry] of Object.entries(manifest.bodies)) {
     const files=Object.values(entry.files).sort((a,b)=>a.startJD-b.startJD);
@@ -362,13 +362,13 @@ test('分片在整条时间轴上无缝（不得开天窗）', () => {
         gaps.push(`${id} ${files[i-1].endJD}→${files[i].startJD}`);
       }
     }
-    // 首片起点与末片终点应与声明的窗口一致
-    assert.ok(Math.abs(files[0].startJD-files[0].endJD)>0,id+' 分片时长为零');
+    // First shard start and last shard end should match declared window
+    assert.ok(Math.abs(files[0].startJD-files[0].endJD)>0,id+' shard duration is zero');
   }
-  assert.deepEqual(gaps,[],'分片接缝出现空洞：'+gaps.slice(0,5).join('; '));
+  assert.deepEqual(gaps,[],'Shard boundary gap found: '+gaps.slice(0,5).join('; '));
 });
 
-test('分片查找：同一目标的多片各自命中，跨片不误用', () => {
+test('Shard lookup: multiple shards for same target resolve correctly without cross-shard pollution', () => {
   resetEphemeris('sharded');
   const mk=(start,count,fill)=>{
     const b=new ArrayBuffer(32+count*48),v=new DataView(b);
@@ -376,23 +376,23 @@ test('分片查找：同一目标的多片各自命中，跨片不误用', () =>
     for(let k=0;k<count;k++)for(let i=0;i<6;i++)v.setFloat64(32+(k*6+i)*8,fill,true);
     return b;
   };
-  installEphemeris('sharded',mk(1000,11,1));   // 覆盖 1000..1010
-  installEphemeris('sharded',mk(1010,11,2));   // 覆盖 1010..1020（交界点两片都有）
+  installEphemeris('sharded',mk(1000,11,1));   // covers 1000..1010
+  installEphemeris('sharded',mk(1010,11,2));   // covers 1010..1020 (boundary in both)
   assert.equal(ephemerisShardCount('sharded'),2);
   const cov=ephemerisCoverage('sharded');
   assert.equal(cov.start,1000);assert.equal(cov.end,1020);assert.equal(cov.shards,2);
-  assert.equal(sampledPosition('sharded',1005).x,1,'第一片命中');
-  assert.equal(sampledPosition('sharded',1015).x,2,'第二片命中');
-  assert.equal(sampledPosition('sharded',999),null,'窗口之前不外推');
-  assert.equal(sampledPosition('sharded',1021),null,'窗口之后不外推');
-  // 重复装载同一片应是替换而非追加（避免刷新时无界增长）
+  assert.equal(sampledPosition('sharded',1005).x,1,'First shard hits');
+  assert.equal(sampledPosition('sharded',1015).x,2,'Second shard hits');
+  assert.equal(sampledPosition('sharded',999),null,'Do not extrapolate before window');
+  assert.equal(sampledPosition('sharded',1021),null,'Do not extrapolate after window');
+  // Reloading the same shard should replace rather than append
   installEphemeris('sharded',mk(1000,11,3));
   assert.equal(ephemerisShardCount('sharded'),2);
   assert.equal(sampledPosition('sharded',1005).x,3);
   resetEphemeris('sharded');
 });
 
-test('非连续分片不得被并集掩盖（曾会把近似模型谎报成 JPL 插值）', () => {
+test('Non-contiguous shards must not be masked by union range', () => {
   resetEphemeris('gap');
   const mk=(start,count)=>{
     const b=new ArrayBuffer(32+count*48),v=new DataView(b);
@@ -401,35 +401,35 @@ test('非连续分片不得被并集掩盖（曾会把近似模型谎报成 JPL 
     return b;
   };
   installEphemeris('gap',mk(1000,11));   // 1000..1010
-  installEphemeris('gap',mk(1020,11));   // 1020..1030（中间 1011..1019 是缺口）
+  installEphemeris('gap',mk(1020,11));   // 1020..1030 (gap at 1011..1019)
   assert.equal(ephemerisCoverage('gap').start,1000);
   assert.equal(ephemerisCoverage('gap').end,1030);
   assert.equal(ephemerisCovers('gap',1005),true);
-  assert.equal(ephemerisCovers('gap',1015),false,'缺口必须报告为未覆盖');
+  assert.equal(ephemerisCovers('gap',1015),false,'Gap must be reported as uncovered');
   assert.equal(ephemerisCovers('gap',1025),true);
   assert.equal(sampledPosition('gap',1015),null);
   resetEphemeris('gap');
 });
 
-test('格式 2（float32）在卫星尺度上量化误差 < 0.3 km', () => {
+test('Format 2 (float32) quantization error < 0.3 km at moon scale', () => {
   resetEphemeris('f32');
-  // 取最远的卫星量级：Iapetus 3.56e6 km
+  // Take farthest moon distance order: Iapetus 3.56e6 km
   const R=3560820,count=5,step=1/24;
   const b=new ArrayBuffer(32+count*6*4),v=new DataView(b);
   [5000,step,count,2].forEach((x,i)=>v.setFloat64(i*8,x,true));
   for(let k=0;k<count;k++)for(let i=0;i<6;i++)v.setFloat32(32+(k*6+i)*4,k===0&&i<3?R:0,true);
   installEphemeris('f32',b);
   const p=sampledPosition('f32',5000);
-  assert.ok(Math.abs(p.x-R)<0.3,`float32 量化误差 ${Math.abs(p.x-R)} km`);
+  assert.ok(Math.abs(p.x-R)<0.3,`float32 quantization error ${Math.abs(p.x-R)} km`);
   resetEphemeris('f32');
 });
 
-test('未知格式与长度不符的缓冲被拒绝', () => {
+test('Unknown format and mismatched buffer lengths are rejected', () => {
   resetEphemeris('badfmt'); resetEphemeris('badlen');
   const bad=new ArrayBuffer(32+6*8),v=new DataView(bad);
-  [100,1,1,3].forEach((x,i)=>v.setFloat64(i*8,x,true));   // format 3 不存在
+  [100,1,1,3].forEach((x,i)=>v.setFloat64(i*8,x,true));   // format 3 does not exist
   assert.throws(()=>installEphemeris('badfmt',bad));
-  const short=new ArrayBuffer(32+5*8);                     // 半个样本
+  const short=new ArrayBuffer(32+5*8);                     // half a sample
   [100,1,1,1].forEach((x,i)=>new DataView(short).setFloat64(i*8,x,true));
   assert.throws(()=>installEphemeris('badlen',short));
   resetEphemeris('badfmt'); resetEphemeris('badlen');
