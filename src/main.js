@@ -1812,6 +1812,12 @@ function updateAtmosphereFogAndExposure(nearest, dt) {
   }
   exposureTarget = THREE.MathUtils.clamp(
     0.75 * Math.max(dSunAU, 0.004) ** 2 * exposureAdapt, 0.02, 6000);
+  // Beyond planetary system (>40 AU), human vision and space cameras adapt to cosmic starfield,
+  // preventing deep space and outer heliosphere from blowing out into white light
+  if (dSunAU > 40.0) {
+    const t = THREE.MathUtils.smoothstep(dSunAU, 40.0, 80.0);
+    exposureTarget = THREE.MathUtils.lerp(exposureTarget, 1.25, t);
+  }
   // ："" 0.22 。
   // ——；
   // （ / ）。

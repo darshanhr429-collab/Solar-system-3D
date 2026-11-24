@@ -20,7 +20,7 @@ function noseDirWorld() {
 }
 
 // sheath: heliosheath fill intensity (diffuse ENA glow, exterior to termination shock, 0 at heliopause)
-function makeShell(noseAU, color, opacity, sheath = 0) {
+function makeShell(noseAU, color, opacity) {
   // 256x160 subdivision eliminates polygonal facets at extreme distances
   const geo = new THREE.SphereGeometry(1, 256, 160);
   const nose = new THREE.Vector3(0, 0, 1);
@@ -48,15 +48,12 @@ function makeShell(noseAU, color, opacity, sheath = 0) {
     uniforms: {
       uColor: { value: new THREE.Color(color) },
       uOpacity: { value: opacity },
-      uSheath: { value: sheath },
     },
     transparent: true,
     depthWrite: false,
-    side: THREE.DoubleSide,
-    // Three.js transparent + DoubleSide renders both passes; additive blending prevents over-accumulation
-    // of limb glow on double-sided geometry.
+    side: THREE.FrontSide, // Exterior boundary only: prevents interior fishbowl dome from turning sky white
     forceSinglePass: true,
-    blending: THREE.AdditiveBlending,
+    blending: THREE.NormalBlending, // Non-reflective normal blending: cannot blow out to white light
     vertexShader: /* glsl */ `
       #include <common>
       #include <logdepthbuf_pars_vertex>
@@ -75,23 +72,18 @@ function makeShell(noseAU, color, opacity, sheath = 0) {
       #include <logdepthbuf_pars_fragment>
       uniform vec3 uColor;
       uniform float uOpacity;
-      uniform float uSheath;
       varying vec3 vN;
       varying vec3 vPosW;
       void main() {
         #include <logdepthbuf_fragment>
         vec3 vDir = normalize(-vPosW);
-        // gl_FrontFacing corrects normal orientation (SphereGeometry exterior is front)
-        vec3 n = normalize(vN) * (gl_FrontFacing ? 1.0 : -1.0);
+        vec3 n = normalize(vN);
         float cosNV = max(0.0, dot(n, vDir));
-        // Pure Fresnel rim glow: physically corresponds to maximum ENA column density along line-of-sight
-        // 5th-power falloff ensures transparent center and sharp boundary
-        float fres = pow(1.0 - cosNV, 5.0);
-        // Heliosheath fill (exterior only): diffuse ENA glow between shock and heliopause, sin^2 profile
-        float fill = gl_FrontFacing ? uSheath * (1.0 - cosNV * cosNV) : 0.0;
-        float intensity = fres + fill;
-        // Alpha modulates intensity; hue remains unscaled for pure chromatic tone
-        gl_FragColor = vec4(uColor, uOpacity * intensity);
+        // Pure Fresnel limb contour: subtle boundary ring at glancing angle, completely transparent at center
+        float fres = pow(1.0 - cosNV, 3.5);
+        float alpha = uOpacity * fres;
+        if (alpha < 0.005) discard;
+        gl_FragColor = vec4(uColor, alpha);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }
@@ -146,10 +138,10 @@ export function voyagerPosition(vg, jdTT) {
 
 export function createHeliosphere() {
   const group = new THREE.Group();
-  // Termination shock: warm orange rim glow + subtle heliosheath ENA glow
-  const ts = makeShell(90,  0xff9a55, 0.48, 0.06);
-  // Heliopause: cold blue rim glow, transparent interior (beyond interstellar boundary)
-  const hp = makeShell(121, 0x55c8ff, 0.52, 0.0);
+  // Termination shock: subtle warm amber boundary contour (~90 AU), non-reflective
+  const ts = makeShell(90,  0xf59e0b, 0.35);
+  // Heliopause: subtle interstellar boundary contour (~121 AU), non-reflective
+  const hp = makeShell(121, 0x38bdf8, 0.30);
   group.add(ts, hp);
   group.renderOrder = -6;
   return group;
