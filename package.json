@@ -4,7 +4,7 @@
   "description": "Solar Wanderer — A 1:1 real-time solar system you can freely explore in your browser, powered by real NASA JPL ephemerides",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hyqzz/Solar-Wanderer.git"
+    "url": "git+https://github.com/darshanhr429-collab/Solar-system-3D.git"
   },
   "keywords": [
     "solar-system",

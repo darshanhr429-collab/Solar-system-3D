@@ -5,7 +5,7 @@ Thank you for your interest! Solar Wanderer welcomes contributions of all kinds.
 ## Ways to Contribute
 
 ### 🐛 Bug Reports
-Open a [GitHub Issue](https://github.com/hyqzz/Solar-Wanderer/issues) with:
+Open a [GitHub Issue](https://github.com/darshanhr429-collab/Solar-system-3D/issues) with:
 - Browser and OS
 - Steps to reproduce
 - Screenshot or console output if relevant
@@ -33,7 +33,7 @@ Typo fixes, better explanations, and accuracy corrections are always welcome —
 ## Development Setup
 
 ```bash
-git clone https://github.com/hyqzz/Solar-Wanderer.git
+git clone https://github.com/darshanhr429-collab/Solar-system-3D.git
 cd Solar-Wanderer
 npm install
 npm run dev      # dev server → http://localhost:5173

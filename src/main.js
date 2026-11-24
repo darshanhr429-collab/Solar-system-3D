@@ -564,6 +564,17 @@ async function init() {
       btnGuide.addEventListener('click', () => { userGuideUI?.openPdf?.(); });
       det.appendChild(btnGuide);
 
+      const linkGit = document.createElement('a');
+      linkGit.className = 'dir-item';
+      linkGit.href = 'https://github.com/darshanhr429-collab/Solar-system-3D';
+      linkGit.target = '_blank';
+      linkGit.rel = 'noopener';
+      linkGit.style.textDecoration = 'none';
+      linkGit.style.display = 'flex';
+      linkGit.style.justifyContent = 'space-between';
+      linkGit.innerHTML = `⭐ GitHub Repository <span>darshanhr429-collab</span>`;
+      det.appendChild(linkGit);
+
       dirBody.appendChild(det);
     }
   } catch (e) { console.error('[Directory missions group]', e); }

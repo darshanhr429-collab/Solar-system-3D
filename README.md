@@ -10,7 +10,7 @@ Powered by NASA JPL ephemerides. The planets are where they are **right now**.
 
 [![Live Demo](https://img.shields.io/badge/▶%20Live%20Demo-sw.icodestar.net-4a9eff?style=for-the-badge)](https://sw.icodestar.net)
 [![Three.js](https://img.shields.io/badge/Three.js-0.165-black?style=for-the-badge&logo=three.js)](https://threejs.org)
-[![Stars](https://img.shields.io/github/stars/hyqzz/Solar-Wanderer?style=for-the-badge&color=yellow)](https://github.com/hyqzz/Solar-Wanderer/stargazers)
+[![Stars](https://img.shields.io/github/stars/darshanhr429-collab/Solar-system-3D?style=for-the-badge&color=yellow)](https://github.com/darshanhr429-collab/Solar-system-3D/stargazers)
 
 *Zero install · Zero account · Zero backend · Desktop **&** mobile · ~200 kB gzipped*
 
@@ -104,7 +104,7 @@ We welcome contributors of all kinds: developers, astronomers, educators, transl
 ### Quick start
 
 ```bash
-git clone https://github.com/hyqzz/Solar-Wanderer.git
+git clone https://github.com/darshanhr429-collab/Solar-system-3D.git
 cd Solar-Wanderer
 npm install
 npm run dev      # → http://localhost:5173
@@ -127,7 +127,7 @@ npm run verify   # live cross-check against NASA JPL Horizons (needs internet)
 | **Spacecraft models** | Voyager, New Horizons, Juno, Cassini 3D models and trajectories | ⭐ Yes |
 | **Outreach** | Blog posts, videos, social media, school partnerships | ⭐ Yes |
 
-**Check our [Issues](https://github.com/hyqzz/Solar-Wanderer/issues) tab** — we are turning the master plan into actionable issues. Pick one, comment, and jump in.
+**Check our [Issues](https://github.com/darshanhr429-collab/Solar-system-3D/issues) tab** — we are turning the master plan into actionable issues. Pick one, comment, and jump in.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for code style and PR process.
 
