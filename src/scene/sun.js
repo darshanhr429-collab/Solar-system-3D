@@ -117,6 +117,7 @@ export function createSun(radiusKm, mapTex) {
         // Fades in when feature spans >= 1 pixel, fully blended at >= 3.5 pixels.
         // Smooth progressive LOD for solar granulation.
         vec3 base = sampled * (0.85 / max(uMapMean, 1e-3));
+        float fp = length(fwidth(p));
         float px1 = 1.0 / max(fp * 700.0, 1e-6);    // Coarse granulation pixel footprint
         float px2 = 1.0 / max(fp * 1450.0, 1e-6);   // Fine granulation footprint
         // Granulation layer blending
@@ -124,7 +125,6 @@ export function createSun(radiusKm, mapTex) {
         // Lower thresholds expose larger sunspot groups during solar maximum,
         // while solar minimum exhibits spotless quiet photosphere.
         // Umbral boundary exhibits sharp transition to photosphere.
-        float fp = length(fwidth(p));
         // Sunspot contrast calibrated to 0.45 to blend procedural cycle variations with underlying texture.
         // Realistic penumbral and umbral shading.
         float a1 = smoothstep(1.0, 3.5, px1);
@@ -257,8 +257,48 @@ export function createSun(radiusKm, mapTex) {
   };
   group.add(corona);
 
+  // Distant Sun Star Billboard: Ensures the Sun is always visible as a brilliant,
+  // radiant beacon across all distances from 1 AU out to interstellar and galactic scales.
+  let distantSunSprite = null;
+  let distantSunMat = null;
+  if (typeof document !== 'undefined') {
+    const starCanvas = document.createElement('canvas');
+    starCanvas.width = starCanvas.height = 128;
+    const sCtx = starCanvas.getContext('2d');
+    const sGrd = sCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    sGrd.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+    sGrd.addColorStop(0.12, 'rgba(255, 248, 220, 0.95)');
+    sGrd.addColorStop(0.35, 'rgba(255, 210, 120, 0.55)');
+    sGrd.addColorStop(0.65, 'rgba(255, 160, 60, 0.15)');
+    sGrd.addColorStop(1.0, 'rgba(255, 140, 30, 0.0)');
+    sCtx.fillStyle = sGrd;
+    sCtx.fillRect(0, 0, 128, 128);
+
+    // 4-point subtle diffraction spikes
+    sCtx.strokeStyle = 'rgba(255, 245, 225, 0.6)';
+    sCtx.lineWidth = 1.8;
+    sCtx.beginPath();
+    sCtx.moveTo(64, 2); sCtx.lineTo(64, 126);
+    sCtx.moveTo(2, 64); sCtx.lineTo(126, 64);
+    sCtx.stroke();
+
+    const starTex = new THREE.CanvasTexture(starCanvas);
+    starTex.colorSpace = THREE.SRGBColorSpace;
+    distantSunMat = new THREE.SpriteMaterial({
+      map: starTex,
+      transparent: true,
+      opacity: 1.0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    distantSunSprite = new THREE.Sprite(distantSunMat);
+    distantSunSprite.renderOrder = 5;
+    distantSunSprite.frustumCulled = false;
+    group.add(distantSunSprite);
+  }
+
   return {
-    group, mesh, corona, coronaUniforms, uniforms,
+    group, mesh, corona, coronaUniforms, uniforms, distantSunSprite,
     update(timeSec, camDistKm, occulted = false, solarActivity = null) {
       uniforms.uTime.value = timeSec;
       coronaUniforms.uTime.value = timeSec;
@@ -272,6 +312,15 @@ export function createSun(radiusKm, mapTex) {
       // Visual threshold calibration.
       // Corona factor: 0.55 standard in orbit, 1.0 during totality.
       coronaUniforms.uVisibility.value = occulted ? 1 : 0.55;
+
+      if (camDistKm && distantSunSprite && distantSunMat) {
+        // Apparent scale keeps Sun visible as a brilliant star across the Solar System and deep space
+        const scaleKm = Math.max(radiusKm * 6, camDistKm * 0.038);
+        distantSunSprite.scale.set(scaleKm, scaleKm, 1);
+        const rRatio = camDistKm / radiusKm;
+        const fade = THREE.MathUtils.clamp((rRatio - 6) / 14, 0, 1);
+        distantSunMat.opacity = fade * (occulted ? 0.0 : 1.0);
+      }
     },
   };
 }

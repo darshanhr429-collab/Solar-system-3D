@@ -31,6 +31,7 @@ import { createSmallBodies } from './scene/smallBodies.js';
 import { createTNOScene } from './scene/tnoScene.js';
 import { createComets } from './scene/comets.js';
 import { createHeliosphere, VOYAGERS, voyagerPosition } from './scene/heliosphere.js';
+import { createMilkyWay3D, createExtragalacticCosmos, GALAXY_CATALOG } from './scene/milkyway3d.js';
 import { TerrainManager } from './scene/terrain.js';
 import { Labels } from './ui/labels.js';
 import { HUD, targetInfo } from './ui/hud.js';
@@ -230,7 +231,7 @@ const orbitCam = new OrbitCamera(camera);
 const simClock = new SimClock();
 const clock = new THREE.Clock();
 
-let builder, comets, labels, searchUI, touchControls, sky, belts, oortCloud, tnoScene, smallBodies;
+let builder, comets, labels, searchUI, touchControls, sky, belts, oortCloud, tnoScene, smallBodies, helio, milkyWay3D, extragalactic;
 let appMode = 'orbit'; // orbit | fly | walk
 const registry = new Map();
 let selectedId = null;
@@ -286,9 +287,19 @@ async function init() {
   oortCloud = createOortCloud(); // { group, update(dSunAU) }
   scene.add(oortCloud.group);
   world.register(new Float64Array(3), oortCloud.group);
-  const helio = createHeliosphere();
+  helio = createHeliosphere();
   scene.add(helio);
   world.register(new Float64Array(3), helio);
+
+  // 3D Procedural Milky Way Galaxy (Bulge, 4 spiral arms, dust lanes, nebulae, Solar location)
+  milkyWay3D = createMilkyWay3D();
+  scene.add(milkyWay3D.group);
+  world.register(new Float64Array(3), milkyWay3D.group);
+
+  // Extragalactic Cosmos (Andromeda M31, Triangulum M33, LMC, SMC, Deep Field)
+  extragalactic = createExtragalacticCosmos();
+  scene.add(extragalactic.group);
+  world.register(new Float64Array(3), extragalactic.group);
   comets = createComets(world);
   for (const e of comets.entries) scene.add(e.group);
 
@@ -581,7 +592,7 @@ async function init() {
     }
   } catch { /* Non-browser location environment */ }
 
-  window.__game = { get __nearest() { return nearestCache; }, ship, simClock, overlayScene, overlayCam, cockpit, shipModel, select, flyTo, orbitCam, orbitEnv, builder, registry, input, terrainMgr, camera, getMode: () => appMode, setOrbitLinesVisible: (v) => { orbitLinesOn = v; }, audioEngine, compass, scaleRef, bookmarks, tourSystem, narrator, teacherToolkit, eclipseSystem, webxr, smallBodies, quality: QUALITY, ephemerisLoader, renderer, composer, apolloLandmarks, roverSites, earthSatellites, nasaNewsUI, userGuideUI, sky, labels, tnoScene, comets, oortCloud };
+  window.__game = { get __nearest() { return nearestCache; }, ship, simClock, overlayScene, overlayCam, cockpit, shipModel, select, flyTo, orbitCam, orbitEnv, builder, registry, input, terrainMgr, camera, getMode: () => appMode, setOrbitLinesVisible: (v) => { orbitLinesOn = v; }, audioEngine, compass, scaleRef, bookmarks, tourSystem, narrator, teacherToolkit, eclipseSystem, webxr, smallBodies, quality: QUALITY, ephemerisLoader, renderer, composer, apolloLandmarks, roverSites, earthSatellites, nasaNewsUI, userGuideUI, sky, labels, tnoScene, comets, oortCloud, helio, milkyWay3D, extragalactic };
   renderer.setAnimationLoop(loop);
 
   // ── ：// ──
@@ -669,6 +680,63 @@ function buildRegistry() {
     desc: 'The outermost spherical cloud of icy planetesimals, extending approx. 2,000–100,000 AU from the Sun, source of long-period comets.',
     phys: { radiusKm: 200 * KM_PER_AU }, posKm: new Float64Array(3), relObj: oortCloud.group, viewDist: 6000 * KM_PER_AU,
   });
+
+  // Galaxies & Deep Space Cosmic Objects (Educational learning targets)
+  const LY_KM_VAL = 9.460730472e12;
+  if (milkyWay3D) {
+    registry.set('milkyway', {
+      nameZh: GALAXY_CATALOG.milkyway.nameZh,
+      nameEn: GALAXY_CATALOG.milkyway.nameEn,
+      kind: 'region',
+      desc: GALAXY_CATALOG.milkyway.desc,
+      phys: { radiusKm: 50000 * LY_KM_VAL },
+      posKm: new Float64Array(3),
+      relObj: milkyWay3D.group,
+      viewDist: 100000 * LY_KM_VAL,
+    });
+  }
+  if (extragalactic) {
+    registry.set('andromeda', {
+      nameZh: GALAXY_CATALOG.andromeda.nameZh,
+      nameEn: GALAXY_CATALOG.andromeda.nameEn,
+      kind: 'region',
+      desc: GALAXY_CATALOG.andromeda.desc,
+      phys: { radiusKm: 110000 * LY_KM_VAL },
+      posKm: new Float64Array([extragalactic.andromedaCenter.x, extragalactic.andromedaCenter.y, extragalactic.andromedaCenter.z]),
+      relObj: extragalactic.m31Mesh,
+      viewDist: 300000 * LY_KM_VAL,
+    });
+    registry.set('triangulum', {
+      nameZh: GALAXY_CATALOG.triangulum.nameZh,
+      nameEn: GALAXY_CATALOG.triangulum.nameEn,
+      kind: 'region',
+      desc: GALAXY_CATALOG.triangulum.desc,
+      phys: { radiusKm: 30000 * LY_KM_VAL },
+      posKm: new Float64Array([extragalactic.m33Center.x, extragalactic.m33Center.y, extragalactic.m33Center.z]),
+      relObj: extragalactic.m33Mesh,
+      viewDist: 80000 * LY_KM_VAL,
+    });
+    registry.set('lmc', {
+      nameZh: GALAXY_CATALOG.lmc.nameZh,
+      nameEn: GALAXY_CATALOG.lmc.nameEn,
+      kind: 'region',
+      desc: GALAXY_CATALOG.lmc.desc,
+      phys: { radiusKm: 14000 * LY_KM_VAL },
+      posKm: new Float64Array([extragalactic.lmcCenter.x, extragalactic.lmcCenter.y, extragalactic.lmcCenter.z]),
+      relObj: extragalactic.magMesh,
+      viewDist: 30000 * LY_KM_VAL,
+    });
+    registry.set('smc', {
+      nameZh: GALAXY_CATALOG.smc.nameZh,
+      nameEn: GALAXY_CATALOG.smc.nameEn,
+      kind: 'region',
+      desc: GALAXY_CATALOG.smc.desc,
+      phys: { radiusKm: 7000 * LY_KM_VAL },
+      posKm: new Float64Array([extragalactic.smcCenter.x, extragalactic.smcCenter.y, extragalactic.smcCenter.z]),
+      relObj: extragalactic.magMesh,
+      viewDist: 20000 * LY_KM_VAL,
+    });
+  }
 
   // Lunar Expeditions & Equipment Landmarks
   const moonEntry = builder.bodies.get('moon');
@@ -1770,6 +1838,13 @@ function updateAtmosphereFogAndExposure(nearest, dt) {
   }
   exposureTarget = THREE.MathUtils.clamp(
     0.75 * Math.max(dSunAU, 0.004) ** 2 * exposureAdapt, 0.02, 6000);
+  // Interstellar eye adaptation: outside the planetary zone (> 80 AU),
+  // smoothly transition exposure back to deep space scale (~1.2) to prevent
+  // extreme white blowout of heliosphere/particles and reveal the Milky Way and cosmos
+  if (dSunAU > 80) {
+    const deepBlend = THREE.MathUtils.smoothstep(dSunAU, 80, 200);
+    exposureTarget = THREE.MathUtils.lerp(exposureTarget, 1.2, deepBlend);
+  }
   // ："" 0.22 。
   // ——；
   // （ / ）。
@@ -1954,7 +2029,8 @@ function updateAtmosphereFogAndExposure(nearest, dt) {
   scene.fog.color.copy(fogColor);
   scene.fog.density = DEBUG_FLAGS.nofog ? 0 : fogDensity;
   renderer.__fogRef = scene.fog;   // （tools/probe-titanfog.mjs）
-  sky.setFade(skyFade / Math.max(1, renderer.toneMappingExposure));
+  const skyExposureDiv = (dSunAU > 80) ? 1.0 : Math.max(1, renderer.toneMappingExposure);
+  sky.setFade(skyFade / skyExposureDiv);
   // （），
   try {
     const sp = builder.bodies.get('sun')?.posKm;
@@ -1969,12 +2045,17 @@ function updateAtmosphereFogAndExposure(nearest, dt) {
   belts.visible = surfVis;
   oortCloud.group.visible = surfVis;
   smallBodies.group.visible = surfVis;
+  if (helio) helio.visible = surfVis;
+  if (milkyWay3D) milkyWay3D.group.visible = surfVis;
+  if (extragalactic) extragalactic.group.visible = surfVis;
   comets.setSkyFade(skyFade);
   tnoScene.setSkyFade(surfVis ? 1 : 0);
   builder.setSkyFade(skyFade);
   for (const v of voyagerEntries) v.group.visible = surfVis;
   for (const a of asteroidEntries) a.group.visible = surfVis;
   oortCloud.update(dSunAU);            // （#5）
+  helio?.update?.(dSunAU);
+  milkyWay3D?.update?.(dSunAU);
   // ****。 skyFade<0.5 ，
   //  skyFade ""——，
   // （）。

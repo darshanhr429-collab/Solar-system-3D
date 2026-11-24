@@ -80,14 +80,15 @@ function makeShell(noseAU, color, opacity, sheath = 0) {
       varying vec3 vPosW;
       void main() {
         #include <logdepthbuf_fragment>
-        vec3 vDir = normalize(-vPosW);
+        // Camera view direction in world space
+        vec3 vDir = normalize(cameraPosition - vPosW);
         // gl_FrontFacing corrects normal orientation (SphereGeometry exterior is front)
         vec3 n = normalize(vN) * (gl_FrontFacing ? 1.0 : -1.0);
         float cosNV = max(0.0, dot(n, vDir));
         // Pure Fresnel rim glow: physically corresponds to maximum ENA column density along line-of-sight
         // 5th-power falloff ensures transparent center and sharp boundary
         float fres = pow(1.0 - cosNV, 5.0);
-        // Heliosheath fill (exterior only): diffuse ENA glow between shock and heliopause, sin^2 profile
+        // Heliosheath fill (exterior only): subtle diffuse ENA glow between shock and heliopause
         float fill = gl_FrontFacing ? uSheath * (1.0 - cosNV * cosNV) : 0.0;
         float intensity = fres + fill;
         // Alpha modulates intensity; hue remains unscaled for pure chromatic tone
@@ -147,10 +148,23 @@ export function voyagerPosition(vg, jdTT) {
 export function createHeliosphere() {
   const group = new THREE.Group();
   // Termination shock: warm orange rim glow + subtle heliosheath ENA glow
-  const ts = makeShell(90,  0xff9a55, 0.48, 0.06);
+  const ts = makeShell(90,  0xff9a55, 0.38, 0.012);
   // Heliopause: cold blue rim glow, transparent interior (beyond interstellar boundary)
-  const hp = makeShell(121, 0x55c8ff, 0.52, 0.0);
+  const hp = makeShell(121, 0x55c8ff, 0.40, 0.0);
   group.add(ts, hp);
   group.renderOrder = -6;
+
+  // Interstellar distance adaptation:
+  // When inside heliosphere (< 140 AU), maintains authentic rim glow.
+  // Beyond 140 AU in deep interstellar space, smoothly fades so the Sun and universe are crystal clear.
+  group.update = (dSunAU) => {
+    let f = 1.0;
+    if (dSunAU > 140) {
+      f = Math.max(0.04, 1.0 - 0.96 * Math.min(1.0, (dSunAU - 140) / 220));
+    }
+    ts.material.uniforms.uOpacity.value = 0.38 * f;
+    hp.material.uniforms.uOpacity.value = 0.40 * f;
+  };
+
   return group;
 }

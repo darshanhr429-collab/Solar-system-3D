@@ -90,6 +90,12 @@ export const DESC_EN = {
   iss: 'International Space Station: A 450-tonne modular microgravity laboratory orbiting at ~415 km altitude and 51.6° inclination, completing an orbit every 92 minutes at 7.66 km/s.',
   hubble: 'Hubble Space Telescope: A 2.4-meter optical and ultraviolet space observatory in low Earth orbit at ~540 km altitude, operating free from atmospheric distortion since 1990.',
   satellites: 'Earth Artificial Satellite Constellations: Over 10,240 operational satellites spanning Low Earth Orbit swarms (8,820+), Medium Earth Orbit navigation (185), and the Geostationary Clarke Belt (585).',
+  // ── Galaxies & Extragalactic Cosmos ──
+  milkyway: 'Milky Way Galaxy: A barred spiral galaxy containing 100–400 billion stars, spanning 100,000 light-years. Our Solar System resides in the Orion Spur, 26,000 light-years from Sagittarius A*.',
+  andromeda: 'Andromeda Galaxy (M31): The largest galaxy in the Local Group, spanning 220,000 light-years with ~1 trillion stars. Approaching the Milky Way at 110 km/s; the two will merge in ~4.5 billion years.',
+  triangulum: 'Triangulum Galaxy (M33): The third-largest member of the Local Group (~60,000 light-years across, 40 billion stars). A pinwheel spiral galaxy rich in young blue stars and massive H II nebulae like NGC 604.',
+  lmc: 'Large Magellanic Cloud (LMC): A prominent satellite galaxy of the Milky Way located 163,000 light-years away, featuring the enormous Tarantula Nebula (30 Doradus) starburst region.',
+  smc: 'Small Magellanic Cloud (SMC): A dwarf irregular satellite galaxy 204,000 light-years from Earth, interacting gravitationally with the LMC and the Milky Way along the Magellanic Bridge.',
 };
 
 /** Educational fact cards in English, keyed by id (consistent with FACTS keys).
@@ -485,5 +491,23 @@ export const FACTS_EN = {
     { text: 'Over 10,240 operational satellites circle Earth as of 2026, with over 8,800 concentrated in Low Earth Orbit (LEO) providing global broadband communications and Earth observation.', source: 'https://www.orbitaldebris.jsc.nasa.gov/' },
     { text: 'Geostationary satellites orbit at exactly 35,786 km above Earth\'s equator, where their orbital period matches Earth\'s 23h 56m sidereal rotation, making them appear stationary from the ground.', source: 'https://science.nasa.gov/learn/basics-of-space-flight/chapter-5/' },
     { text: 'The global Space Surveillance Network actively tracks more than 36,500 orbital debris objects larger than 10 cm to safeguard human spaceflight and operational satellites.', source: 'https://www.orbitaldebris.jsc.nasa.gov/' },
+  ],
+  milkyway: [
+    { text: 'Our Sun takes about 230 million years to complete one orbit around the supermassive black hole Sagittarius A* at the galactic center — a period known as a "Cosmic Year" or "Galactic Year".', source: 'https://science.nasa.gov/milky-way/' },
+    { text: 'The Milky Way possesses four major spiral arms (Scutum-Centaurus, Perseus, Sagittarius, Norma-Outer) and several smaller spurs, woven with dark interstellar molecular dust clouds.', source: 'https://science.nasa.gov/milky-way/' },
+    { text: 'The total mass of the Milky Way is estimated at ~1.5 trillion solar masses, with over 85% consisting of an invisible dark matter halo extending far beyond the visible stellar disk.', source: 'https://science.nasa.gov/milky-way/' },
+  ],
+  andromeda: [
+    { text: 'Andromeda (Messier 31) is the most distant object visible to the naked eye from Earth, located 2.537 million light-years away in the constellation Andromeda.', source: 'https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-31/' },
+    { text: 'Hubble Space Telescope observations show that the Andromeda and Milky Way galaxies are on a collision course, traveling toward each other at ~110 km/s; they will merge into a giant elliptical galaxy called "Milkomeda".', source: 'https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-31/' },
+  ],
+  triangulum: [
+    { text: 'Triangulum (Messier 33) is home to NGC 604, one of the largest known star-forming H II regions in the local universe — spanning nearly 1,500 light-years and containing over 200 massive O-type stars.', source: 'https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-33/' },
+  ],
+  lmc: [
+    { text: 'The Large Magellanic Cloud hosts the Tarantula Nebula (30 Doradus), the brightest and most active star-forming region in the entire Local Group of galaxies.', source: 'https://science.nasa.gov/missions/webb/nasas-webb-takes-star-filled-portrait-of-tarantula-nebula/' },
+  ],
+  smc: [
+    { text: 'The Small Magellanic Cloud is linked to the Large Magellanic Cloud by the "Magellanic Bridge", a stream of neutral hydrogen gas pulled out by tidal gravitational forces.', source: 'https://science.nasa.gov/missions/hubble/hubble-finds-turbulent-stellar-nursery-in-small-magellanic-cloud/' },
   ],
 };
