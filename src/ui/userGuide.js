@@ -8,30 +8,7 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     #guide-trigger-btn {
-      position: fixed;
-      top: 14px;
-      left: 395px;
-      z-index: 100;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(147, 197, 253, 0.4);
-      color: #eff6ff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      transition: all 0.2s ease;
-    }
-    #guide-trigger-btn:hover {
-      background: rgba(30, 64, 175, 0.85);
-      border-color: #93c5fd;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(147, 197, 253, 0.3);
+      display: none !important;
     }
     @media (max-width: 768px) {
       #guide-trigger-btn { left: 14px; top: 96px; font-size: 11px; padding: 4px 10px; }
@@ -687,27 +664,6 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
       else if (guideOverlay.classList.contains('active')) closeGuide();
     }
   });
-
-  // Check first access: if first time visiting, show the guide automatically after splash screen
-  const hasVisited = localStorage.getItem('sw_guide_dismissed');
-  if (!hasVisited) {
-    // Show shortly after startup
-    setTimeout(() => {
-      const startEl = document.getElementById('start');
-      if (!startEl || startEl.style.display === 'none') {
-        openGuide();
-      } else {
-        // Wait until start button clicked
-        const observer = new MutationObserver(() => {
-          if (startEl.style.display === 'none') {
-            observer.disconnect();
-            openGuide();
-          }
-        });
-        observer.observe(startEl, { attributes: true, attributeFilter: ['style'] });
-      }
-    }, 1800);
-  }
 
   return { openGuide, closeGuide, openPdf, closePdf };
 }

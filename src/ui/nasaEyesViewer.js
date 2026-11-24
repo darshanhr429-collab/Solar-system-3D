@@ -20,30 +20,7 @@ export function setupNasaEyesViewerUI({ flyTo, select }) {
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     #nasa-eyes-btn {
-      position: fixed;
-      top: 14px;
-      left: 555px;
-      z-index: 100;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(168, 85, 247, 0.4);
-      color: #f3e8ff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      transition: all 0.2s ease;
-    }
-    #nasa-eyes-btn:hover {
-      background: rgba(88, 28, 135, 0.85);
-      border-color: #c084fc;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(192, 132, 252, 0.35);
+      display: none !important;
     }
     #nasa-eyes-btn .badge-3d {
       background: #9333ea;

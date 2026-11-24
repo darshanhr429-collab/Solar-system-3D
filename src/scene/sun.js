@@ -117,6 +117,7 @@ export function createSun(radiusKm, mapTex) {
         // Fades in when feature spans >= 1 pixel, fully blended at >= 3.5 pixels.
         // Smooth progressive LOD for solar granulation.
         vec3 base = sampled * (0.85 / max(uMapMean, 1e-3));
+        float fp = length(fwidth(p));
         float px1 = 1.0 / max(fp * 700.0, 1e-6);    // Coarse granulation pixel footprint
         float px2 = 1.0 / max(fp * 1450.0, 1e-6);   // Fine granulation footprint
         // Granulation layer blending
@@ -124,7 +125,6 @@ export function createSun(radiusKm, mapTex) {
         // Lower thresholds expose larger sunspot groups during solar maximum,
         // while solar minimum exhibits spotless quiet photosphere.
         // Umbral boundary exhibits sharp transition to photosphere.
-        float fp = length(fwidth(p));
         // Sunspot contrast calibrated to 0.45 to blend procedural cycle variations with underlying texture.
         // Realistic penumbral and umbral shading.
         float a1 = smoothstep(1.0, 3.5, px1);

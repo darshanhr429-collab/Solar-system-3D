@@ -537,6 +537,37 @@ async function init() {
     });
   } catch (e) { console.error('[NASA Eyes Viewer UI]', e); }
 
+  // Space Missions & Educational Tools inside Directory Drawer
+  try {
+    const dirBody = document.getElementById('dir-body');
+    if (dirBody) {
+      const det = document.createElement('details');
+      const sum = document.createElement('summary');
+      sum.textContent = '🚀 Space Missions & Tools';
+      det.appendChild(sum);
+
+      const btnNews = document.createElement('button');
+      btnNews.className = 'dir-item';
+      btnNews.innerHTML = `🛰️ NASA Tech News & Satellites <span>(N)</span>`;
+      btnNews.addEventListener('click', () => { nasaNewsUI?.open?.(); });
+      det.appendChild(btnNews);
+
+      const btnEyes = document.createElement('button');
+      btnEyes.className = 'dir-item';
+      btnEyes.innerHTML = `🛸 NASA's Eyes 3D Models <span>(E)</span>`;
+      btnEyes.addEventListener('click', () => { nasaEyesViewerUI?.open?.(); });
+      det.appendChild(btnEyes);
+
+      const btnGuide = document.createElement('button');
+      btnGuide.className = 'dir-item';
+      btnGuide.innerHTML = `📖 Flight Manual & Guide (PDF) <span>(H)</span>`;
+      btnGuide.addEventListener('click', () => { userGuideUI?.openPdf?.(); });
+      det.appendChild(btnGuide);
+
+      dirBody.appendChild(det);
+    }
+  } catch (e) { console.error('[Directory missions group]', e); }
+
   // ：C 、M 、Ctrl+B 、Ctrl+Shift+B 、Y （）
   window.addEventListener('keydown', (e) => {
     if (e.code === 'KeyC' && !e.repeat) { e.preventDefault(); compass?.toggle(); }

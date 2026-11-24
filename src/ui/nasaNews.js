@@ -140,30 +140,7 @@ export function setupNasaNewsUI({ flyTo, select, toggleSatellites, orbitCam }) {
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     #nasa-news-btn {
-      position: fixed;
-      top: 14px;
-      left: 170px;
-      z-index: 100;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #e0f2fe;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      transition: all 0.2s ease;
-    }
-    #nasa-news-btn:hover {
-      background: rgba(30, 58, 138, 0.85);
-      border-color: #38bdf8;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+      display: none !important;
     }
     #nasa-news-btn .badge-live {
       width: 8px;
