@@ -21,7 +21,7 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
       z-index: 1000;
       background: rgba(3, 7, 18, 0.82);
       backdrop-filter: blur(16px);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       opacity: 0;
@@ -29,6 +29,7 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
       transition: opacity 0.25s ease;
     }
     .sw-overlay.active {
+      display: flex;
       opacity: 1;
       pointer-events: auto;
     }

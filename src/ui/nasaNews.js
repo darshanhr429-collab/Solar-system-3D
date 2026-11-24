@@ -161,7 +161,7 @@ export function setupNasaNewsUI({ flyTo, select, toggleSatellites, orbitCam }) {
       z-index: 1000;
       background: rgba(3, 7, 18, 0.78);
       backdrop-filter: blur(16px);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       opacity: 0;
@@ -169,6 +169,7 @@ export function setupNasaNewsUI({ flyTo, select, toggleSatellites, orbitCam }) {
       transition: opacity 0.25s ease;
     }
     #nasa-news-overlay.active {
+      display: flex;
       opacity: 1;
       pointer-events: auto;
     }
@@ -411,11 +412,11 @@ export function setupNasaNewsUI({ flyTo, select, toggleSatellites, orbitCam }) {
       </div>
 
       <div class="nasa-stats-bar">
-        <div class="nasa-stat-item">Active Satellites: <strong>${SATELLITE_STATS.totalActive.toLocaleString()}+</strong></div>
-        <div class="nasa-stat-item">LEO Swarms: <strong>${SATELLITE_STATS.leo.toLocaleString()}+</strong></div>
-        <div class="nasa-stat-item">MEO Nav: <strong>${SATELLITE_STATS.meo.toLocaleString()}</strong></div>
-        <div class="nasa-stat-item">GEO Clarke Belt: <strong>${SATELLITE_STATS.geo.toLocaleString()}</strong></div>
-        <div class="nasa-stat-item">Tracked Debris: <strong>${SATELLITE_STATS.trackedDebris.toLocaleString()}+</strong></div>
+        <div class="nasa-stat-item">Active Satellites: <strong>${(SATELLITE_STATS?.totalActive ?? 10240).toLocaleString()}+</strong></div>
+        <div class="nasa-stat-item">LEO Swarms: <strong>${(SATELLITE_STATS?.leoCount ?? 8820).toLocaleString()}+</strong></div>
+        <div class="nasa-stat-item">MEO Nav: <strong>${(SATELLITE_STATS?.meoCount ?? 185).toLocaleString()}</strong></div>
+        <div class="nasa-stat-item">GEO Clarke Belt: <strong>${(SATELLITE_STATS?.geoCount ?? 585).toLocaleString()}</strong></div>
+        <div class="nasa-stat-item">Tracked Debris: <strong>${(SATELLITE_STATS?.debrisTracked ?? 36500).toLocaleString()}+</strong></div>
       </div>
 
       <div class="nasa-filter-bar">

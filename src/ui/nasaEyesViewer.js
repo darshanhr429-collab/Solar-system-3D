@@ -42,7 +42,7 @@ export function setupNasaEyesViewerUI({ flyTo, select }) {
       z-index: 1100;
       background: rgba(3, 7, 18, 0.86);
       backdrop-filter: blur(20px);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       opacity: 0;
@@ -50,6 +50,7 @@ export function setupNasaEyesViewerUI({ flyTo, select }) {
       transition: opacity 0.25s ease;
     }
     #nasa-eyes-overlay.active {
+      display: flex;
       opacity: 1;
       pointer-events: auto;
     }
