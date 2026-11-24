@@ -3,7 +3,7 @@
 // and an authentic stylized technical document / PDF viewer for classroom curricula.
 // 100% English, fully responsive, print-ready.
 
-export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews }) {
+export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews, openNasaEyes }) {
   // Inject scoped styles for both Quick Guide and Stylized Technical PDF Viewer
   const styleEl = document.createElement('style');
   styleEl.textContent = `
@@ -421,6 +421,14 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
             <span class="keyword-pill" data-id="satellites">🛰️ Earth Satellites (10,000+)</span>
             <span class="keyword-pill" data-id="iss">International Space Station (ISS)</span>
             <span class="keyword-pill" data-id="hubble">Hubble Space Telescope</span>
+            <span class="keyword-pill" data-id="voyager1">🛸 Voyager 1 (Interstellar)</span>
+            <span class="keyword-pill" data-id="voyager2">🛸 Voyager 2 (Grand Tour)</span>
+            <span class="keyword-pill" data-id="bennu">🪨 101955 Bennu (OSIRIS-REx)</span>
+            <span class="keyword-pill" data-id="ryugu">🪨 162173 Ryugu (Hayabusa2)</span>
+            <span class="keyword-pill" data-id="eros">🪨 433 Eros (NEAR Shoemaker)</span>
+            <span class="keyword-pill" data-id="itokawa">🪨 25143 Itokawa</span>
+            <span class="keyword-pill" data-id="psyche">🪨 16 Psyche (Metal Core)</span>
+            <span class="keyword-pill" data-id="vesta">🪨 4 Vesta (Dawn Protoplanet)</span>
             <span class="keyword-pill" data-id="moon">The Moon</span>
             <span class="keyword-pill" data-id="mars">Mars</span>
             <span class="keyword-pill" data-id="europa">Europa (Ocean World)</span>
@@ -445,6 +453,9 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
       </div>
 
       <div class="guide-actions">
+        <button class="btn-pdf" id="open-nasa-eyes-studio-btn" style="background: linear-gradient(135deg, #7e22ce, #9333ea); border-color: #c084fc; color: #fff;">
+          <span>🛸 Open NASA's Eyes 3D Interactive Model Viewer</span>
+        </button>
         <button class="btn-pdf" id="open-pdf-manual-btn">
           <span>📄 Open Flight Manual & Reference Guide (PDF / Document View)</span>
         </button>
@@ -636,6 +647,11 @@ export function setupUserGuideUI({ flyTo, select, toggleSatellites, openNasaNews
   });
 
   // Keyword pills inside guide
+  document.getElementById('open-nasa-eyes-studio-btn')?.addEventListener('click', () => {
+    closeGuide();
+    openNasaEyes?.();
+  });
+
   guideOverlay.querySelectorAll('.keyword-pill').forEach((pill) => {
     pill.addEventListener('click', () => {
       const id = pill.dataset.id;

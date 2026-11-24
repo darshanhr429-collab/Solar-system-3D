@@ -56,6 +56,8 @@ import { createApolloLandmarks, createRoverSites } from './scene/landmarks.js';
 import { createEarthSatellites, SATELLITE_STATS } from './scene/earthSatellites.js';
 import { setupNasaNewsUI } from './ui/nasaNews.js';
 import { setupUserGuideUI } from './ui/userGuide.js';
+import { setupNasaEyesViewerUI } from './ui/nasaEyesViewer.js';
+import { REAL_ASTEROIDS_ORBITS, getAsteroidEclipticPosition, createEyesModel } from './scene/nasaEyesModels.js';
 import { createEphemerisLoader } from './engine/ephemerisLoader.js';
 import { createCameraFeel } from './engine/cameraFeel.js';
 import { bootstrapRenderer } from './engine/rendererBootstrap.js';
@@ -237,6 +239,7 @@ const ephemerisLoader = createEphemerisLoader();
 const cameraFeel = createCameraFeel();
 let cameraFovBase = 58;   //  FOV，
 const voyagerEntries = [];
+const asteroidEntries = [];
 const boundaryEntries = [];
 const IDENTITY_Q = new THREE.Quaternion();
 let lastLabelClickFocus = 'earth';
@@ -318,6 +321,24 @@ async function init() {
       group.add(makeSpacecraftGlow(0x88ffcc));
     } catch { /* Fallback to empty Group on model failure */ }
     voyagerEntries.push({ vg: NEW_HORIZONS, posKm, group, posFn: (jd) => newHorizonsPosition(jd) });
+  }
+
+  // Real Asteroids & Comets (NASA Eyes high-fidelity models at 1:1 scale)
+  for (const [id, ast] of Object.entries(REAL_ASTEROIDS_ORBITS)) {
+    const group = new THREE.Group();
+    const posKm = new Float64Array(3);
+    world.register(posKm, group);
+    scene.add(group);
+    try {
+      const { group: model } = createEyesModel(id, { scale: 1.0 });
+      model.scale.setScalar(ast.radiusKm);
+      group.add(model);
+      const glow = makeSpacecraftGlow(id === 'vesta' ? 0xffdfaa : 0xccddee);
+      group.add(glow);
+    } catch (e) {
+      console.error(`[Asteroid ${id}]`, e);
+    }
+    asteroidEntries.push({ ast, posKm, group, posFn: (jd) => getAsteroidEclipticPosition(id, jd) });
   }
 
   // （""）
@@ -505,8 +526,16 @@ async function init() {
         }
       },
       openNasaNews: () => { nasaNewsUI?.open?.(); },
+      openNasaEyes: () => { nasaEyesViewerUI?.open?.(); },
     });
   } catch (e) { console.error('[User Guide UI]', e); }
+  let nasaEyesViewerUI = null;
+  try {
+    nasaEyesViewerUI = setupNasaEyesViewerUI({
+      flyTo: (id) => flyTo(id),
+      select: (id) => select(id),
+    });
+  } catch (e) { console.error('[NASA Eyes Viewer UI]', e); }
 
   // ：C 、M 、Ctrl+B 、Ctrl+Shift+B 、Y （）
   window.addEventListener('keydown', (e) => {
@@ -572,6 +601,13 @@ async function init() {
         const p = v.posFn(jdAfter);
         const w = eclToWorldArr(p);
         v.posKm[0] = w[0]; v.posKm[1] = w[1]; v.posKm[2] = w[2];
+      }
+      for (const a of asteroidEntries) {
+        const p = a.posFn(jdAfter);
+        if (p) {
+          const w = eclToWorldArr(p);
+          a.posKm[0] = w[0]; a.posKm[1] = w[1]; a.posKm[2] = w[2];
+        }
       }
     }
   }
@@ -699,6 +735,20 @@ function buildRegistry() {
     relObj: earthGroup,
     viewDist: 70000,
   });
+
+  // NASA's Eyes Real Asteroids & Comets
+  for (const a of asteroidEntries) {
+    registry.set(a.ast.id, {
+      nameZh: a.ast.nameZh,
+      nameEn: a.ast.nameEn,
+      desc: a.ast.desc,
+      kind: 'asteroid',
+      phys: { radiusKm: a.ast.radiusKm },
+      posKm: a.posKm,
+      relObj: a.group,
+      viewDist: a.ast.viewDist,
+    });
+  }
 }
 
 /** OrbitCamera  */
@@ -980,6 +1030,15 @@ function loop() {
       v.posKm[0] = w[0]; v.posKm[1] = w[1]; v.posKm[2] = w[2];
     }
   } catch (e) { loopErr('voyagers', e); }
+  try {
+    for (const a of asteroidEntries) {
+      const p = a.posFn(jdTT);
+      if (p) {
+        const w = eclToWorldArr(p);
+        a.posKm[0] = w[0]; a.posKm[1] = w[1]; a.posKm[2] = w[2];
+      }
+    }
+  } catch (e) { loopErr('asteroids', e); }
 
   const nearest = findNearest();
   nearestCache = nearest;
@@ -1914,6 +1973,7 @@ function updateAtmosphereFogAndExposure(nearest, dt) {
   tnoScene.setSkyFade(surfVis ? 1 : 0);
   builder.setSkyFade(skyFade);
   for (const v of voyagerEntries) v.group.visible = surfVis;
+  for (const a of asteroidEntries) a.group.visible = surfVis;
   oortCloud.update(dSunAU);            // （#5）
   // ****。 skyFade<0.5 ，
   //  skyFade ""——，
