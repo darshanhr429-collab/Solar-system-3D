@@ -114,6 +114,7 @@ export class SearchUI {
       { title: t('grp.moon'), filter: (e) => e.kind === 'moon', groupByParent: true },
       { title: t('grp.comet'), filter: (e) => e.kind === 'comet' },
       { title: t('grp.tno'), filter: (e) => e.kind === 'tno' },
+      { title: t('grp.asteroid'), filter: (e) => e.kind === 'asteroid' },
       { title: t('grp.probe'), filter: (e) => e.kind === 'probe' },
       { title: t('grp.boundary'), filter: (e) => e.kind === 'boundary' },
       { title: t('grp.region'), filter: (e) => e.kind === 'region' },

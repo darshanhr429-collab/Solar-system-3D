@@ -698,8 +698,13 @@ function buildRegistry() {
   // 、，。
   registry.set('asteroidbelt', {
     nameZh: 'Asteroid Belt', nameEn: 'Asteroid Belt', kind: 'region',
-    desc: 'Main Asteroid Belt (2.1–3.4 AU): A circumstellar disc between Mars and Jupiter containing hundreds of thousands of small rocky bodies.',
+    desc: 'Main Asteroid Belt (2.1–3.4 AU): Circumstellar disk between Mars and Jupiter containing millions of rocky bodies. Dominated by C-type (75%), S-type (17%), and metallic M-type asteroids, carved by Kirkwood Gaps and home to dwarf planet Ceres, protoplanet Vesta, and metallic world Psyche.',
     phys: { radiusKm: 2 * KM_PER_AU }, posKm: new Float64Array(3), relObj: belts, viewDist: 5.5 * KM_PER_AU,
+  });
+  registry.set('jupitertrojans', {
+    nameZh: 'Jupiter Trojans', nameEn: 'Jupiter Trojans', kind: 'region',
+    desc: 'Jupiter Trojan Asteroids (~5.2 AU): Massive primordial swarms sharing Jupiter’s orbit at the Sun-Jupiter L4 (Greek Camp) and L5 (Trojan Camp) Lagrange points. Rich in organic tholins, actively explored by NASA’s Lucy spacecraft.',
+    phys: { radiusKm: 0.8 * KM_PER_AU }, posKm: new Float64Array(3), relObj: belts, viewDist: 6.0 * KM_PER_AU,
   });
   registry.set('kuiperbelt', {
     nameZh: 'Kuiper Belt', nameEn: 'Kuiper Belt', kind: 'region',
@@ -708,7 +713,7 @@ function buildRegistry() {
   });
   registry.set('oortcloud', {
     nameZh: 'Oort Cloud', nameEn: 'Oort Cloud', kind: 'region',
-    desc: 'The outermost spherical cloud of icy planetesimals, extending approx. 2,000–100,000 AU from the Sun, source of long-period comets.',
+    desc: 'Oort Cloud (2,000–100,000 AU): The outermost cometary reservoir of billions of icy planetesimals extending up to nearly a light-year into deep space. Consists of the inner Hills Cloud torus and outer isotropic sphere.',
     phys: { radiusKm: 200 * KM_PER_AU }, posKm: new Float64Array(3), relObj: oortCloud.group, viewDist: 6000 * KM_PER_AU,
   });
 
@@ -1065,6 +1070,7 @@ function loop() {
   try { comets.update(jdTT, ship.posKm); } catch (e) { loopErr('comets', e); }
   try { tnoScene.update(jdTT, ship.posKm); } catch (e) { loopErr('tnoScene', e); }
   try { smallBodies.update(jdTT, ship.posKm); } catch (e) { loopErr('smallBodies', e); }
+  try { belts?.update?.(builder.bodies.get('jupiter')?.posKm); } catch (e) { loopErr('belts', e); }
   try {
     for (const v of voyagerEntries) {
       const p = v.posFn(jdTT);

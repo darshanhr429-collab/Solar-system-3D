@@ -50,9 +50,10 @@ export const DESC_EN = {
   termshock: 'The boundary where the solar wind abruptly drops from supersonic to subsonic (~90 AU). Voyager 1 crossed it in 2004.',
   heliopause: 'The boundary where solar-wind pressure balances the interstellar medium — the edge of the Sun\'s domain (~121 AU). Beyond it lies interstellar space.',
   // ── Regions ──
-  asteroidbelt: 'The main asteroid belt (2.1–3.4 AU): a flattened disk of hundreds of thousands of small bodies between Mars and Jupiter.',
+  asteroidbelt: 'The Main Asteroid Belt (2.1–3.4 AU): A vast circumstellar reservoir of primordial planetesimals between Mars and Jupiter. It holds the dwarf planet Ceres (~940 km), protoplanets Vesta (~525 km) and Pallas (~512 km), and the metallic asteroid Psyche (~220 km). Sculpted by Kirkwood Gaps carved by Jupiter’s orbital resonances, its composition is 75% carbonaceous C-type, 17% stony S-type, and metallic M-types explored by NASA’s Dawn, OSIRIS-REx, and Psyche missions.',
+  jupitertrojans: 'Jupiter Trojan Asteroids (~5.2 AU): Massive primordial asteroid swarms sharing Jupiter’s orbit at the Sun-Jupiter L4 (leading Greek Camp) and L5 (trailing Trojan Camp) stable Lagrange points. Rich in organic tholins and D/P-type minerals, actively explored by NASA’s Lucy spacecraft.',
   kuiperbelt: 'The Kuiper Belt (30–50 AU): a disk of icy bodies beyond Neptune, home to Pluto, Haumea, Makemake and countless smaller Kuiper Belt objects.',
-  oortcloud: 'The Solar System\'s outermost spherical comet cloud, ~2,000–100,000 AU from the Sun — the home of long-period comets.',
+  oortcloud: 'The Oort Cloud (~2,000–100,000 AU): The colossal spherical cometary halo surrounding the outer Solar System out to nearly a light-year into deep space. Hypothesized birthplace of all long-period comets, composed of the flattened inner Hills Cloud and the isotropic outer shell.',
   // ── Trans-Neptunian Objects (TNOs) ──
   eris: 'The largest known dwarf planet (~2326 km across), slightly bigger than Pluto. Its discovery directly triggered Pluto\'s reclassification. A high-albedo scattered-disk object coated in nitrogen ice and methane frost; orbital period ~559 years.',
   sedna: 'One of the reddest known bodies, rich in organic tholins. Orbital period ~11,400 years with a perihelion of 76 AU, far beyond the Kuiper Belt — an inner-Oort / extended-orbit (ETNO) object. Reaches perihelion around 2076.',
@@ -444,9 +445,16 @@ export const FACTS_EN = {
   ],
   // ── Belts and regions ───────────────────────────────────────────────
   asteroidbelt: [
-    { text: 'The main asteroid belt (2.1–3.4 AU) between Mars and Jupiter holds hundreds of thousands of small bodies, but its total mass is less than 4% of the Moon\'s.', source: 'https://science.nasa.gov/solar-system/asteroids/' },
-    { text: 'Ceres is the only dwarf planet in the asteroid belt, ~940 km across — a third of the belt\'s total mass.', source: 'https://science.nasa.gov/dwarf-planets/ceres/' },
-    { text: 'The belt is not debris from an exploded planet — Jupiter\'s gravity prevented these materials from ever coalescing into one.', source: 'https://science.nasa.gov/solar-system/asteroids/' },
+    { text: 'The entire mass of the Main Asteroid Belt is surprisingly small — less than 4% of the Moon\'s mass, and over a third of that mass is concentrated in a single body: the dwarf planet Ceres.', source: 'https://science.nasa.gov/solar-system/asteroids/' },
+    { text: 'Kirkwood Gaps: Jupiter\'s gravitational resonances clear out distinct empty lanes at 3:1 (2.50 AU), 5:2 (2.82 AU), 7:3 (2.95 AU), and 2:1 (3.28 AU) mean-motion orbital ratios.', source: 'https://science.nasa.gov/solar-system/asteroids/' },
+    { text: 'NASA\'s Dawn mission orbited both 4 Vesta (2011–2012) and 1 Ceres (2015–2018), discovering Occator Crater\'s bright sodium carbonate salt deposits on Ceres and the massive 22-km Rheasilvia central peak on Vesta.', source: 'https://science.nasa.gov/mission/dawn/' },
+    { text: 'Asteroid spectral taxonomy: stony S-types dominate the inner belt, carbonaceous C-types (75%) dominate the middle/outer belt, while metallic M-types like 16 Psyche represent exposed planetesimal nickel-iron cores.', source: 'https://science.nasa.gov/mission/psyche/' },
+    { text: 'NASA\'s OSIRIS-REx collected pristine carbon- and water-rich samples from near-Earth asteroid 101955 Bennu, successfully parachuting 121.6 grams to the Utah desert in September 2023.', source: 'https://science.nasa.gov/mission/osiris-rex/' },
+  ],
+  jupitertrojans: [
+    { text: 'Jupiter Trojans share Jupiter\'s 5.2 AU orbit at the Sun-Jupiter L4 (leading Greek Camp) and L5 (trailing Trojan Camp) stable Lagrange points.', source: 'https://science.nasa.gov/mission/lucy/' },
+    { text: 'NASA\'s Lucy spacecraft (launched October 2021) is on a 12-year mission to fly past eight Trojan asteroids, including Eurybates, Polymele, Leucus, Orus, and binary Patroclus-Menoetius.', source: 'https://science.nasa.gov/mission/lucy/' },
+    { text: 'Trojans are predominantly dark D-type and P-type bodies coated in primitive organic tholins — undisturbed "fossils" dating to the birth of the outer giant planets.', source: 'https://science.nasa.gov/mission/lucy/' },
   ],
   kuiperbelt: [
     { text: 'The Kuiper Belt (30–50 AU) beyond Neptune is a disk of icy bodies, home to Pluto, Haumea and many others.', source: 'https://science.nasa.gov/solar-system/kuiper-belt/' },
@@ -454,9 +462,10 @@ export const FACTS_EN = {
     { text: 'Kuiper Belt objects preserve primitive material from the Solar System\'s formation — "time capsules" for studying planetary origins.', source: 'https://science.nasa.gov/solar-system/kuiper-belt/' },
   ],
   oortcloud: [
-    { text: 'The Oort Cloud is the Solar System\'s outermost spherical comet cloud, ~2,000–100,000 AU from the Sun — the home of long-period comets.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
-    { text: 'The Oort Cloud has not been directly observed; its existence is inferred from the orbital distribution of long-period comets.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
-    { text: 'The Oort Cloud\'s outer edge is about 1 light-year from the Sun, near the boundary of the Sun\'s gravitational reach — beyond it lies interstellar space.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
+    { text: 'The Oort Cloud extends from ~2,000 AU out to 100,000 AU (~1.58 light-years) — nearly halfway to the nearest star system, Alpha Centauri.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
+    { text: 'Cometary planetesimals in the Oort Cloud have very low geometric albedos (~0.04), resembling charcoal covered in frozen water, carbon monoxide, methane, and silicate dust.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
+    { text: 'Passing stars and galactic tides periodically disturb Oort cloud bodies, nudging them into eccentric orbits that dive into the inner Solar System as long-period comets like NEOWISE and Hale-Bopp.', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
+    { text: 'Structure consists of the inner toroidal Hills Cloud (2,000–20,000 AU) and the vast outer isotropic spherical shell (20,000–100,000 AU).', source: 'https://science.nasa.gov/solar-system/oort-cloud/' },
   ],
   _generic: [
     { text: 'All the planets in the Solar System together hold just 0.14% of the Sun\'s mass.', source: 'https://science.nasa.gov/sun/' },
